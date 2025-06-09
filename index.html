@@ -83,7 +83,6 @@
         .admin-mode #add-person-panel { display: block; }
         .card-admin-actions { position: absolute; top: 15px; right: 15px; display: none; gap: 10px; z-index: 5; }
         .admin-mode .card-admin-actions { display: flex; }
-        
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
         .modal-overlay.visible { opacity: 1; pointer-events: all; }
         .modal { background: #1f222e; padding: 30px; border-radius: 20px; border: 1px solid var(--border-color); border-top: 4px solid var(--primary-color); width: 90%; max-width: 420px; text-align: center; transform: scale(0.95); transition: transform 0.3s ease; box-shadow: 0 10px 50px rgba(0,0,0,0.4); }
@@ -131,9 +130,9 @@
             API_KEY: '$2a$10$T3nkKRACm80x5BL9/RR/D.btKlIEXaG6NDod8aDskPkob2OuszNrO',
             ADMIN_KEY: 'ronim',
             INITIAL_WALLET_BALANCE: 1000,
-            LOCAL_STORAGE_KEY: 'egzaminator_diamond_profile',
+            LOCAL_STORAGE_KEY: 'ronim_sts_final_profile',
             PASSING_THRESHOLD: 75,
-            BASE_STAKE: 50,
+            BASE_STAKE: 50, // Wirtualna stawka "domu" dla stabilizacji kursów
             BET_RANGES: {
                 'range_0_50':   { label: '0-50%',   color: '#ff793f' },
                 'range_51_75':  { label: '51-75%',  color: '#ffc82c' },
@@ -179,7 +178,7 @@
             closeModal: () => $('#bet-modal-overlay').classList.remove('visible')
         };
         
-        const toast = { show(message, type = 'success') { const el = document.createElement('div'); el.className = `toast ${type === 'success' ? 'success' : 'error'}`; el.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-times-circle'}" style="margin-right: 10px;"></i> ${message}`; $('#toast-container').appendChild(el); setTimeout(() => el.remove(), 4000); } };
+        const toast = { show(message, type = 'success') { const el = document.createElement('div'); el.className = `toast`; el.style.borderLeft = `4px solid var(--${type}-color)`; el.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-times-circle'}" style="margin-right: 10px; color: var(--${type}-color)"></i> ${message}`; $('#toast-container').appendChild(el); setTimeout(() => el.remove(), 4000); } };
 
         const userSystem = {
             init() { const saved = localStorage.getItem(CONFIG.LOCAL_STORAGE_KEY); if(saved) { user = JSON.parse(saved); this.updateDisplay(); } else { $('#user-modal-overlay').classList.add('visible'); } },
@@ -195,7 +194,7 @@
                 try {
                     const res = await fetch(`${CONFIG.API_URL}/latest`, { headers: { 'X-Master-Key': CONFIG.API_KEY }});
                     if (!res.ok) {
-                        if (res.status === 404) { state = { people: [] }; renderer.renderAll(); return; }
+                        if (res.status === 404) { state = {people:[]}; renderer.renderAll(); return; }
                         throw new Error(`Błąd sieci: ${res.status}`);
                     }
                     state = (await res.json()).record || { people: [] };
@@ -224,14 +223,12 @@
                 }
             },
             sanitizeData() {
-                if (!state.people || !Array.isArray(state.people)) {
-                    state.people = [];
-                }
+                if (!state.people || !Array.isArray(state.people)) state.people = [];
                 state.people.forEach(person => {
                     if (!person.bets) person.bets = {};
                     const allBetKeys = ['pass', 'fail', ...Object.keys(CONFIG.BET_RANGES)];
                     allBetKeys.forEach(key => {
-                        if (person.bets[key] === undefined) {
+                        if (person.bets[key] === undefined || person.bets[key] === null) {
                             person.bets[key] = 0;
                         }
                     });
@@ -245,18 +242,37 @@
                 const formatOdd = val => Math.max(1.05, val).toFixed(2);
                 const bets = person.bets;
                 const baseStake = CONFIG.BASE_STAKE;
-                let effectivePassPool = (bets.pass || 0) + baseStake;
-                let effectiveFailPool = (bets.fail || 0) + baseStake;
-                let detailedBetsPool = baseStake * Object.keys(CONFIG.BET_RANGES).length;
+
+                let totalMainPool = (bets.pass || 0) + (bets.fail || 0) + (2 * baseStake);
+                let passProbability = ((bets.pass || 0) + baseStake) / totalMainPool;
+                let failProbability = ((bets.fail || 0) + baseStake) / totalMainPool;
+
+                let totalDetailedPool = Object.values(bets).reduce((sum, val, index) => index > 1 ? sum + val : sum, 0) + (Object.keys(CONFIG.BET_RANGES).length * baseStake);
+
                 Object.keys(CONFIG.BET_RANGES).forEach(rangeId => {
                     const rangePool = bets[rangeId] || 0;
-                    const rangeThreshold = parseInt(rangeId.split('_')[1]);
-                    if (rangeThreshold >= CONFIG.PASSING_THRESHOLD) { effectivePassPool += rangePool; } else { effectiveFailPool += rangePool; }
-                    detailedBetsPool += rangePool;
+                    const rangeProb = (rangePool + baseStake) / totalDetailedPool;
+                    if (parseInt(rangeId.split('_')[1]) >= CONFIG.PASSING_THRESHOLD) {
+                        passProbability += rangeProb * 0.5; // Zakłady szczegółowe wpływają na główne, ale słabiej
+                    } else {
+                        failProbability += rangeProb * 0.5;
+                    }
                 });
-                const mainTotalPool = effectivePassPool + effectiveFailPool;
-                const mainOdds = { pass: formatOdd((mainTotalPool / effectivePassPool) * margin), fail: formatOdd((mainTotalPool / effectiveFailPool) * margin) };
-                const detailedOdds = Object.keys(CONFIG.BET_RANGES).map(rangeId => ({ rangeId, odd: formatOdd((detailedBetsPool * 1.5 / ((bets[rangeId] || 0) + baseStake)) * margin) }));
+
+                const normFactor = 1 / (passProbability + failProbability);
+                passProbability *= normFactor;
+                failProbability *= normFactor;
+
+                const mainOdds = {
+                    pass: formatOdd((1 / passProbability) * margin),
+                    fail: formatOdd((1 / failProbability) * margin)
+                };
+
+                const detailedOdds = Object.keys(CONFIG.BET_RANGES).map(rangeId => {
+                    const rangeProb = ((bets[rangeId] || 0) + baseStake) / totalDetailedPool;
+                    return { rangeId, odd: formatOdd((1 / rangeProb) * margin) };
+                });
+
                 const totalPool = Object.values(bets).reduce((a, b) => a + b, 0);
                 return { mainOdds, detailedOdds, totalPool };
             }
@@ -324,8 +340,9 @@
             async addPerson() {
                 const name = $('#new-person-name').value.trim();
                 if (!name) return toast.show("Podaj imię i nazwisko.", 'error');
-                const newPerson = { id: Date.now(), name, bets: { pass: 0, fail: 0 } };
-                Object.keys(CONFIG.BET_RANGES).forEach(key => newPerson.bets[key] = 0);
+                const newPerson = { id: Date.now(), name, bets: {} };
+                const allBetKeys = ['pass', 'fail', ...Object.keys(CONFIG.BET_RANGES)];
+                allBetKeys.forEach(key => newPerson.bets[key] = 0);
                 state.people.push(newPerson);
                 await api.save();
                 toast.show(`Dodano "${name}"!`, 'success');
@@ -350,6 +367,5 @@
             api.fetch();
         });
     </script>
-    <p style="font-size:5px">Organizator ma prawo do odmowy wypłacenia środków z wygranej</p>
 </body>
 </html>
