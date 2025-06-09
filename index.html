@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Egzaminator: Professional Edition</title>
+    <title>Egzaminator: Polished Edition</title>
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,87 +14,98 @@
 
     <style>
         :root {
-            --bg-gradient: linear-gradient(145deg, #10121b, #1d1f2b);
-            --card-bg: rgba(31, 34, 46, 0.5);
+            --bg-color: #10121b;
+            --card-bg: rgba(31, 34, 46, 0.6);
             --primary-color: #00e0a0;
             --secondary-color: #ffc82c;
             --text-color: #e8e8e8;
             --text-muted: #9a9fab;
             --border-color: rgba(255, 255, 255, 0.08);
-            --success-color: #00e0a0;
             --error-color: #ff5252;
             --font-family: 'Poppins', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: var(--font-family); background-color: #10121b; background-image: var(--bg-gradient); color: var(--text-color); padding: clamp(1rem, 3vw, 2rem); min-height: 100vh; }
-        .container { max-width: 1400px; margin: 0 auto; }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-color);
+            padding: clamp(1rem, 3vw, 2rem);
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
         
         /* --- NAGŁÓWEK I PROFIL UŻYTKOWNIKA --- */
-        header { text-align: center; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
-        .user-profile { display: flex; align-items: center; justify-content: flex-end; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
-        .user-info, .wallet-display { background: var(--card-bg); padding: 10px 20px; border-radius: 10px; border: 1px solid var(--border-color); font-weight: 600; font-size: clamp(0.9rem, 2.5vw, 1.1rem); backdrop-filter: blur(5px); }
-        .user-info i { color: var(--primary-color); }
-        .wallet-display i { color: var(--secondary-color); }
-        .user-info i, .wallet-display i { margin-right: 8px; }
-        header h1 { font-size: clamp(2rem, 8vw, 4.5rem); font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 25px rgba(255, 200, 44, 0.1); }
+        header { text-align: center; margin-bottom: clamp(2rem, 5vw, 4rem); }
+        .user-profile { display: flex; align-items: center; justify-content: flex-end; gap: 20px; margin-bottom: 25px; flex-wrap: wrap; }
+        .user-info, .wallet-display { background: var(--card-bg); padding: 10px 20px; border-radius: 12px; border: 1px solid var(--border-color); font-weight: 600; font-size: clamp(0.9rem, 2.5vw, 1.1rem); backdrop-filter: blur(8px); }
+        header h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(255, 200, 44, 0.15); }
         
-        /* --- KARTY GŁÓWNE (KARTY, PRZEŁĄCZNIK ZAKŁADÓW, TABELE) --- */
+        /* --- KARTY ZAKŁADÓW --- */
         .betting-list { display: grid; grid-template-columns: 1fr; gap: clamp(1.5rem, 3vw, 2.5rem); }
-        .person-card { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); backdrop-filter: blur(12px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); overflow: hidden; transition: all 0.3s ease; animation: card-enter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; opacity: 0; position: relative; }
+        .person-card { background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-color); backdrop-filter: blur(12px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25); overflow: hidden; transition: all 0.3s ease; animation: card-enter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; opacity: 0; position: relative; }
         @keyframes card-enter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card-header { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.15); }
-        .person-name { font-size: 1.6em; font-weight: 600; }
-        .bet-type-switcher { display: flex; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 5px; }
-        .switch-btn { padding: 8px 15px; border: none; background: transparent; color: var(--text-muted); font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
-        .switch-btn.active { background: var(--primary-color); color: #10121b; box-shadow: 0 2px 10px rgba(0, 224, 160, 0.4); }
-        .switch-btn i { margin-right: 6px; }
+        .card-header { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.15); flex-wrap: wrap; gap: 15px; }
+        .person-name { font-size: 1.8em; font-weight: 700; }
+        
+        .bet-type-switcher { position: relative; display: flex; background: rgba(0,0,0,0.3); border-radius: 10px; padding: 5px; }
+        .bet-type-switcher::before { content: ''; position: absolute; top: 5px; left: 5px; height: calc(100% - 10px); width: calc(50% - 5px); background: var(--primary-color); border-radius: 8px; transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+        .bet-type-switcher.view-detailed::before { transform: translateX(100%); }
+        .switch-btn { padding: 8px 15px; border: none; background: transparent; color: var(--text-muted); font-weight: 600; border-radius: 8px; cursor: pointer; transition: color 0.3s ease; z-index: 1; white-space: nowrap; }
+        .switch-btn.active { color: #10121b; }
+        .switch-btn i { margin-right: 8px; }
 
         .card-body { padding: 25px; }
         .bet-view { display: none; }
         .bet-view.active { display: block; animation: view-fade-in 0.4s ease; }
-        @keyframes view-fade-in { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes view-fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .bet-table { width: 100%; border-collapse: collapse; }
-        .bet-table th, .bet-table td { padding: 12px; text-align: center; border-bottom: 1px solid var(--border-color); }
-        .bet-table th { color: var(--text-muted); font-weight: 400; }
+        .bet-table th, .bet-table td { padding: 14px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .bet-table th { color: var(--text-muted); font-weight: 400; text-align: center;}
         .bet-table tr:last-child td { border-bottom: none; }
+        .bet-table tr { transition: background-color 0.2s ease; }
         .bet-table tr:hover { background: rgba(255,255,255,0.05); }
         .bet-label { font-weight: 600; }
-        .bet-odd-value { font-weight: 700; font-size: 1.4em; color: var(--secondary-color); }
-        .bet-button { width: 100%; padding: 10px; border-radius: 8px; border: none; font-size: 0.9em; font-weight: 600; cursor: pointer; transition: all 0.2s ease; background: linear-gradient(90deg, var(--primary-color), #34d399); color: #10121b; }
-        .bet-button:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 224, 160, 0.5); }
+        .bet-odd-value { font-weight: 700; font-size: 1.5em; color: var(--secondary-color); text-align: center;}
+        .bet-button { width: 100%; padding: 12px; border-radius: 10px; border: none; font-size: 0.9em; font-weight: 700; cursor: pointer; transition: all 0.2s ease; background: var(--primary-color); color: #10121b; text-transform: uppercase; letter-spacing: 0.5px; }
+        .bet-button:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 224, 160, 0.4); }
         
         .card-footer { padding: 0 25px 25px 25px; }
-        .bet-progress-bar { height: 12px; display: flex; border-radius: 6px; overflow: hidden; background-color: rgba(0,0,0,0.3); margin-bottom: 15px; }
-        .progress-segment { height: 100%; transition: width 0.5s ease; }
-        .total-pool { text-align: right; font-size: 0.9em; color: var(--text-muted); font-weight: 300; }
-
-        /* Reszta stylów (admin, modale, toasty, featured) bez większych zmian */
-        #add-person-panel { display: none; background: var(--card-bg); padding: 30px; margin: 40px auto; border-radius: 15px; border: 1px solid var(--border-color); max-width: 500px; backdrop-filter: blur(10px); }
-        .admin-mode #add-person-panel { display: block; }
-        #add-person-panel h2 { text-align: center; margin-bottom: 25px; font-weight: 600; }
-        .add-person-form { display: flex; gap: 10px; }
-        .add-person-input { flex-grow: 1; padding: 12px; border: 1px solid var(--border-color); background-color: rgba(0,0,0,0.2); color: var(--text-color); border-radius: 8px; font-size: 1em; font-family: var(--font-family); }
-        .add-person-button { padding: 12px 20px; border: none; background: linear-gradient(90deg, var(--primary-color), #34d399); color: #1a1c1e; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 600; transition: box-shadow 0.2s ease; }
-        .add-person-button:hover { box-shadow: 0 0 15px var(--primary-color); }
-        .card-admin-actions { position: absolute; top: 10px; right: 10px; display: none; gap: 8px; z-index: 5; }
+        .bet-progress-bar { height: 14px; display: flex; border-radius: 7px; overflow: hidden; background-color: rgba(0,0,0,0.3); margin-bottom: 15px; border: 1px solid var(--border-color); }
+        .progress-segment { height: 100%; transition: width 0.5s ease; box-shadow: inset 0 0 5px rgba(0,0,0,0.3); }
+        .total-pool { text-align: right; font-size: 1em; color: var(--text-muted); font-weight: 400; }
+        .total-pool span { color: var(--text-color); font-weight: 600; }
+        
+        /* --- MODAL OBSTAWIANIA Z PRZYCISKAMI SZYBKIEGO ZAKŁADU --- */
+        .modal-input-group { margin-bottom: 15px; }
+        .modal-input { width: 100%; padding: 18px; font-size: 1.4em; text-align: center; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 12px; font-family: var(--font-family); }
+        .quick-bet-buttons { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .quick-bet-btn { flex-grow: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+        .quick-bet-btn:hover { background: var(--border-color); color: var(--text-color); }
+        
+        #add-person-panel { display: none; background: var(--card-bg); padding: 30px; margin: 40px auto; border-radius: 20px; border: 1px solid var(--border-color); max-width: 500px; backdrop-filter: blur(12px); }
+        .card-admin-actions { position: absolute; top: 15px; right: 15px; display: none; gap: 10px; z-index: 5; }
         .admin-mode .card-admin-actions { display: flex; }
-        .admin-card-btn { background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-muted); width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s ease; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center; z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .admin-card-btn { background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-muted); width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s ease; }
+        .admin-card-btn:hover { color: var(--text-color); background: rgba(0,0,0,0.5); transform: translateY(-2px); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
         .modal-overlay.visible { opacity: 1; pointer-events: all; }
-        .modal { background: var(--card-bg); backdrop-filter: blur(15px); padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); width: 90%; max-width: 400px; text-align: center; transform: scale(0.9); transition: transform 0.3s ease; }
+        .modal { background: #1f222e; backdrop-filter: none; padding: 30px; border-radius: 20px; border: 1px solid var(--border-color); border-top: 4px solid var(--primary-color); width: 90%; max-width: 420px; text-align: center; transform: scale(0.95); transition: transform 0.3s ease; box-shadow: 0 10px 50px rgba(0,0,0,0.4); }
+        .modal-overlay.visible .modal { transform: scale(1); }
         #loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .loader-spinner { border: 5px solid var(--border-color); border-top: 5px solid var(--primary-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         #toast-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1001; }
-        .toast { padding: 15px 25px; border-radius: 8px; color: white; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.3); animation: toast-in 0.3s ease, toast-out 0.3s ease 3.7s forwards; }
-        .toast.success { background: var(--success-color); }
-        .toast.error { background: var(--error-color); }
-        @keyframes toast-in { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes toast-out { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
-        
+        .toast { padding: 15px 25px; border-radius: 12px; color: white; font-weight: 600; background: #2e303e; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.3); animation: toast-in 0.3s ease, toast-out 0.3s ease 3.7s forwards; }
+        .toast.success { border-left: 4px solid var(--success-color); }
+        .toast.error { border-left: 4px solid var(--error-color); }
+        @keyframes toast-in { from { transform: translateX(calc(100% + 20px)); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes toast-out { from { transform: translateX(0); opacity: 1; } to { transform: translateX(calc(100% + 20px)); opacity: 0; } }
         .featured-bets { margin-bottom: 40px; }
         .featured-bets h2 { text-align: center; font-size: 1.8rem; margin-bottom: 25px; color: var(--text-muted); }
         .featured-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
@@ -103,16 +114,13 @@
         .featured-card.sure-bet { border-color: var(--success-color); }
         .featured-card.risky-bet { border-color: var(--error-color); }
         .featured-card.hot-bet { border-color: var(--secondary-color); }
-        .featured-title { font-weight: 600; margin-bottom: 5px; }
-        .featured-person { font-size: 1.3em; font-weight: 700; }
-        .featured-details { color: var(--text-muted); font-size: 0.9em; }
     </style>
 </head>
 <body>
     <header>
         <div class="user-profile">
-            <div class="user-info"><i class="fas fa-user-circle"></i><span id="user-nickname">Gracz</span></div>
-            <div class="wallet-display"><i class="fas fa-wallet"></i><span id="wallet-balance">...</span> PLN</div>
+            <div class="user-info"><i class="fas fa-user-circle"></i><span id="user-nickname"></span></div>
+            <div class="wallet-display"><i class="fas fa-wallet"></i><span id="wallet-balance"></span> PLN</div>
         </div>
         <h1>Egzaminator</h1>
     </header>
@@ -134,12 +142,12 @@
             API_KEY: '$2a$10$T3nkKRACm80x5BL9/RR/D.btKlIEXaG6NDod8aDskPkob2OuszNrO', 
             ADMIN_KEY: 'ronim',
             INITIAL_WALLET_BALANCE: 1000,
-            LOCAL_STORAGE_KEY: 'egzaminator_pro_profile',
-            PASSING_THRESHOLD: 75, 
+            LOCAL_STORAGE_KEY: 'egzaminator_polished_profile',
+            PASSING_THRESHOLD: 75,
             BET_RANGES: {
                 'range_0_50':   { label: '0-50%',   color: '#ff793f' },
-                'range_51_70':  { label: '51-70%',  color: '#ffc82c' },
-                'range_71_90':  { label: '71-90%',  color: '#34d399' },
+                'range_51_75':  { label: '51-75%',  color: '#ffc82c' },
+                'range_76_90':  { label: '76-90%',  color: '#34d399' },
                 'range_91_100': { label: '91-100%', color: '#00e0a0' },
             }
         };
@@ -150,28 +158,30 @@
         
         const $ = selector => document.querySelector(selector);
         
-        // --- MODUŁY APLIKACJI ---
         const ui = {
             init() {
                 this.injectTemplates();
                 this.addEventListeners();
             },
             injectTemplates() {
-                $('#loader-overlay').innerHTML = '<div class="loader-spinner"></div>';
+                $('#loader-overlay').innerHTML = `<div class="loader-spinner"></div>`;
                 $('#user-modal-overlay').innerHTML = `<div class="modal"><h3>Witaj!</h3><p>Podaj swój pseudonim, aby założyć portfel.</p><input type="text" id="nickname-input" class="modal-input" placeholder="Twój nick" maxlength="20"><div class="modal-actions"><button id="confirm-nickname-btn" class="bet-button">Zaczynajmy!</button></div></div>`;
-                $('#bet-modal-overlay').innerHTML = `<div class="modal"><h3 id="modal-title"></h3><p id="modal-subtitle"></p><p id="modal-wallet-info"></p><input type="number" id="modal-bet-amount" class="modal-input" placeholder="0" min="1"><div class="modal-actions"><button class="bet-button" data-action="closeModal" style="background: var(--error-color);">Anuluj</button><button class="bet-button" data-action="confirmBet">Zatwierdź</button></div></div>`;
+                $('#bet-modal-overlay').innerHTML = `<div class="modal"><h3 id="modal-title"></h3><p id="modal-subtitle"></p><p id="modal-wallet-info"></p><div class="modal-input-group"><input type="text" inputmode="numeric" pattern="[0-9]*" id="modal-bet-amount" class="modal-input" placeholder="0"></div><div class="quick-bet-buttons"><button class="quick-bet-btn" data-action="setBetAmount" data-amount="10">+10</button><button class="quick-bet-btn" data-action="setBetAmount" data-amount="50">+50</button><button class="quick-bet-btn" data-action="setBetAmount" data-amount="100">+100</button><button class="quick-bet-btn" data-action="setBetAmount" data-amount="max">MAX</button></div><div class="modal-actions"><button class="bet-button" data-action="closeModal" style="background: var(--error-color);">Anuluj</button><button class="bet-button" data-action="confirmBet">Zatwierdź</button></div></div>`;
                 $('#featured-bets').innerHTML = `<h2>Top Zakłady</h2><div class="featured-grid"></div>`;
                 $('#add-person-panel').innerHTML = `<h2><i class="fas fa-user-plus"></i> Dodaj zawodnika</h2><div class="add-person-form"><input type="text" id="new-person-name" class="add-person-input" placeholder="Imię i nazwisko"><button class="add-person-button" data-action="addPerson"><i class="fas fa-plus"></i>Dodaj</button></div>`;
             },
             addEventListeners() {
                 document.body.addEventListener('click', e => {
                     const target = e.target.closest('[data-action]');
-                    if (target) {
-                        const action = target.dataset.action;
-                        if (actions[action]) actions[action](target);
-                    }
+                    if (target) { e.preventDefault(); if (actions[target.dataset.action]) actions[target.dataset.action](target); }
                 });
                 $('#confirm-nickname-btn').addEventListener('click', () => userSystem.create());
+                $('#modal-bet-amount').addEventListener('input', e => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    const numericValue = parseInt(value, 10);
+                    if (!isNaN(numericValue) && numericValue > user.wallet) { value = user.wallet.toString(); }
+                    e.target.value = value;
+                });
             },
             showLoader: () => $('#loader-overlay').style.display = 'flex',
             hideLoader: () => $('#loader-overlay').style.display = 'none',
@@ -179,14 +189,7 @@
                 const { id, betId, betType } = target.dataset;
                 const person = state.people.find(p => p.id === parseInt(id));
                 currentBet = { personId: parseInt(id), betId, betType };
-                
-                let subtitle = '';
-                if (betType === 'main') {
-                    subtitle = `Zakład główny: ${betId === 'pass' ? 'Zda' : 'Nie Zda'}`;
-                } else {
-                    subtitle = `Wynik w zakresie: ${CONFIG.BET_RANGES[betId].label}`;
-                }
-
+                let subtitle = betType === 'main' ? `Zakład główny: ${betId === 'pass' ? 'Zda' : 'Nie Zda'}` : `Wynik w zakresie: ${CONFIG.BET_RANGES[betId].label}`;
                 $('#modal-title').innerText = `Obstawiasz: ${person.name}`;
                 $('#modal-subtitle').innerText = subtitle;
                 $('#modal-wallet-info').innerText = `Dostępne środki: ${user.wallet} PLN`;
@@ -197,64 +200,37 @@
             closeModal: () => $('#bet-modal-overlay').classList.remove('visible')
         };
         
-        const toast = {
-            show(message, type = 'success') {
-                const el = document.createElement('div');
-                el.className = `toast ${type}`;
-                el.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-times-circle'}"></i> ${message}`;
-                $('#toast-container').appendChild(el);
-                setTimeout(() => el.remove(), 4000);
-            }
-        };
+        const toast = { show(message, type = 'success') { const el = document.createElement('div'); el.className = `toast ${type}`; el.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-times-circle'}"></i> ${message}`; $('#toast-container').appendChild(el); setTimeout(() => el.remove(), 4000); } };
 
-        const userSystem = { /* bez zmian */ };
-        Object.assign(userSystem, {
+        const userSystem = {
             init() { const saved = localStorage.getItem(CONFIG.LOCAL_STORAGE_KEY); if(saved) { user = JSON.parse(saved); this.updateDisplay(); } else { $('#user-modal-overlay').classList.add('visible'); } },
             create() { const nick = $('#nickname-input').value.trim(); if(!nick) return toast.show('Podaj pseudonim!', 'error'); user = { id: `user_${Date.now()}`, nickname: nick, wallet: CONFIG.INITIAL_WALLET_BALANCE }; localStorage.setItem(CONFIG.LOCAL_STORAGE_KEY, JSON.stringify(user)); $('#user-modal-overlay').classList.remove('visible'); this.updateDisplay(); toast.show(`Witaj, ${nick}!`, 'success'); },
             updateDisplay() { $('#user-nickname').textContent = user.nickname; $('#wallet-balance').textContent = user.wallet; },
             updateWallet(amount) { user.wallet += amount; localStorage.setItem(CONFIG.LOCAL_STORAGE_KEY, JSON.stringify(user)); this.updateDisplay(); }
-        });
+        };
 
-        const dataHandler = { /* bez zmian */ };
-        Object.assign(dataHandler, {
+        const api = {
             async fetch() { ui.showLoader(); try { const res = await fetch(`${CONFIG.API_URL}/latest`, { headers: { 'X-Master-Key': CONFIG.API_KEY }}); if(!res.ok) throw new Error(`${res.status}`); state = (await res.json()).record || { people: [] }; renderer.renderAll(); } catch (err) { console.error(err); toast.show('Błąd pobierania danych!', 'error'); } finally { ui.hideLoader(); }},
             async save() { ui.showLoader(); try { await fetch(CONFIG.API_URL, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Master-Key': CONFIG.API_KEY }, body: JSON.stringify(state) }); } catch (err) { console.error(err); toast.show('Błąd zapisu danych!', 'error'); } finally { ui.hideLoader(); } }
-        });
+        };
 
         const logic = {
             calculateOdds(person) {
                 const margin = 0.90;
                 const formatOdd = val => Math.max(1.05, val).toFixed(2);
                 const bets = person.bets;
-                
-                // Obliczanie "efektywnych" pul dla zakładów głównych
                 let effectivePassPool = bets.pass || 1;
                 let effectiveFailPool = bets.fail || 1;
                 let detailedBetsPool = 1;
-
                 Object.keys(CONFIG.BET_RANGES).forEach(rangeId => {
                     const rangePool = bets[rangeId] || 0;
                     const rangeThreshold = parseInt(rangeId.split('_')[1]);
-                    if (rangeThreshold >= CONFIG.PASSING_THRESHOLD) {
-                        effectivePassPool += rangePool;
-                    } else {
-                        effectiveFailPool += rangePool;
-                    }
+                    if (rangeThreshold >= CONFIG.PASSING_THRESHOLD) { effectivePassPool += rangePool; } else { effectiveFailPool += rangePool; }
                     detailedBetsPool += rangePool;
                 });
-                
                 const mainTotalPool = effectivePassPool + effectiveFailPool;
-                
-                const mainOdds = {
-                    pass: formatOdd((mainTotalPool / effectivePassPool) * margin),
-                    fail: formatOdd((mainTotalPool / effectiveFailPool) * margin)
-                };
-
-                const detailedOdds = Object.keys(CONFIG.BET_RANGES).map(rangeId => ({
-                    rangeId,
-                    odd: formatOdd((detailedBetsPool / (bets[rangeId] || 1)) * margin)
-                }));
-                
+                const mainOdds = { pass: formatOdd((mainTotalPool / effectivePassPool) * margin), fail: formatOdd((mainTotalPool / effectiveFailPool) * margin) };
+                const detailedOdds = Object.keys(CONFIG.BET_RANGES).map(rangeId => ({ rangeId, odd: formatOdd((detailedBetsPool * 1.5 / (bets[rangeId] || 1)) * margin) }));
                 const totalPool = Object.values(bets).reduce((a, b) => a + b, 0);
                 return { mainOdds, detailedOdds, totalPool };
             }
@@ -262,61 +238,6 @@
 
         const renderer = {
             renderAll() { this.renderFeaturedBets(); this.renderBettingList(); },
-            renderFeaturedBets() { /* bez zmian */ },
-            renderBettingList() { $('#betting-list').innerHTML = state.people.map((p, i) => this.createCardHTML(p, i)).join(''); },
-            createCardHTML(person, index = 0) {
-                const { totalPool } = logic.calculateOdds(person);
-
-                return `
-                    <div class="person-card" data-person-id="${person.id}" style="animation-delay: ${index * 0.07}s">
-                        <div class="card-admin-actions">
-                            <button class="admin-card-btn reset" data-action="reset" data-id="${person.id}" title="Resetuj"><i class="fas fa-sync-alt"></i></button>
-                            <button class="admin-card-btn delete" data-action="delete" data-id="${person.id}" title="Usuń"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                        <div class="card-header">
-                            <div class="person-name">${person.name}</div>
-                            <div class="bet-type-switcher" data-action="switchView">
-                                <button class="switch-btn active" data-view="main-bets-view"><i class="fas fa-star"></i>Główne</button>
-                                <button class="switch-btn" data-view="detailed-bets-view"><i class="fas fa-list-ol"></i>Szczegółowe</button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="bet-view main-bets-view active"></div>
-                            <div class="bet-view detailed-bets-view"></div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="bet-progress-bar" data-progress-bar-id="${person.id}"></div>
-                            <div class="total-pool" data-total-pool-id="${person.id}">Łączna pula: ${totalPool} PLN</div>
-                        </div>
-                    </div>`;
-            },
-            updateCardContent(card, person) {
-                const { mainOdds, detailedOdds, totalPool } = logic.calculateOdds(person);
-                
-                const mainViewHTML = `<table class="bet-table"><tbody>
-                    <tr><td class="bet-label">Zda</td><td class="bet-odd-value">${mainOdds.pass}</td><td><button class="bet-button" data-action="showBetModal" data-id="${person.id}" data-bet-id="pass" data-bet-type="main">Obstaw</button></td></tr>
-                    <tr><td class="bet-label">Nie Zda</td><td class="bet-odd-value">${mainOdds.fail}</td><td><button class="bet-button" data-action="showBetModal" data-id="${person.id}" data-bet-id="fail" data-bet-type="main">Obstaw</button></td></tr>
-                </tbody></table>`;
-                
-                const detailedRowsHTML = detailedOdds.map(({ rangeId, odd }) => `
-                    <tr><td class="bet-label">${CONFIG.BET_RANGES[rangeId].label}</td><td class="bet-odd-value">${odd}</td><td><button class="bet-button" data-action="showBetModal" data-id="${person.id}" data-bet-id="${rangeId}" data-bet-type="detailed">Obstaw</button></td></tr>
-                `).join('');
-                const detailedViewHTML = `<table class="bet-table"><tbody>${detailedRowsHTML}</tbody></table>`;
-                
-                card.querySelector('.main-bets-view').innerHTML = mainViewHTML;
-                card.querySelector('.detailed-bets-view').innerHTML = detailedViewHTML;
-                
-                const progressSegmentsHTML = Object.keys(CONFIG.BET_RANGES).map(rangeId => {
-                    const rangePool = person.bets[rangeId] || 0;
-                    const percentage = totalPool > 0 ? (rangePool / totalPool) * 100 : 0;
-                    return `<div class="progress-segment" style="width: ${percentage}%; background-color: ${CONFIG.BET_RANGES[rangeId].color};" title="${CONFIG.BET_RANGES[rangeId].label}"></div>`;
-                }).join('');
-                card.querySelector(`[data-progress-bar-id="${person.id}"]`).innerHTML = progressSegmentsHTML;
-
-                card.querySelector(`[data-total-pool-id="${person.id}"]`).textContent = `Łączna pula: ${totalPool} PLN`;
-            }
-        };
-        Object.assign(renderer, {
             renderFeaturedBets() {
                 const grid = $('#featured-bets .featured-grid');
                 if (state.people.length < 1) return $('#featured-bets').style.display = 'none';
@@ -324,101 +245,78 @@
 
                 const allOdds = state.people.flatMap(p => {
                     const { mainOdds, detailedOdds } = logic.calculateOdds(p);
-                    return [
-                        { person: p, label: 'Zda', odd: mainOdds.pass },
-                        { person: p, label: 'Nie zda', odd: mainOdds.fail },
-                        ...detailedOdds.map(o => ({ person: p, label: CONFIG.BET_RANGES[o.rangeId].label, odd: o.odd }))
-                    ];
+                    return [ { person: p, label: 'Zda', odd: mainOdds.pass }, { person: p, label: 'Nie zda', odd: mainOdds.fail }, ...detailedOdds.map(o => ({ person: p, label: CONFIG.BET_RANGES[o.rangeId].label, odd: o.odd })) ];
                 });
-                
                 const minOddBet = allOdds.reduce((min, o) => parseFloat(o.odd) < parseFloat(min.odd) ? o : min, allOdds[0]);
                 const maxOddBet = allOdds.reduce((max, o) => parseFloat(o.odd) > parseFloat(max.odd) ? o : max, allOdds[0]);
-                
                 const peopleWithPool = state.people.map(p => ({...p, totalPool: logic.calculateOdds(p).totalPool}));
                 const hotBet = peopleWithPool.length > 0 ? peopleWithPool.reduce((max, p) => p.totalPool > max.totalPool ? p : max, peopleWithPool[0]) : {name: 'Brak', totalPool: 0};
                 
-                grid.innerHTML = `
-                    <div class="featured-card sure-bet"><div class="featured-title">Najniższy Kurs</div><div class="featured-person">${minOddBet.person.name}</div><div class="featured-details">${minOddBet.label} @ <strong>${minOddBet.odd}</strong></div></div>
-                    <div class="featured-card risky-bet"><div class="featured-title">Najwyższy Kurs</div><div class="featured-person">${maxOddBet.person.name}</div><div class="featured-details">${maxOddBet.label} @ <strong>${maxOddBet.odd}</strong></div></div>
-                    <div class="featured-card hot-bet"><div class="featured-title">Największa Pula</div><div class="featured-person">${hotBet.name}</div><div class="featured-details">Łączna pula: <strong>${hotBet.totalPool} PLN</strong></div></div>`;
+                grid.innerHTML = `<div class="featured-card sure-bet"><div class="featured-title">Najniższy Kurs</div><div class="featured-person">${minOddBet.person.name}</div><div class="featured-details">${minOddBet.label} @ <strong>${minOddBet.odd}</strong></div></div><div class="featured-card risky-bet"><div class="featured-title">Najwyższy Kurs</div><div class="featured-person">${maxOddBet.person.name}</div><div class="featured-details">${maxOddBet.label} @ <strong>${maxOddBet.odd}</strong></div></div><div class="featured-card hot-bet"><div class="featured-title">Największa Pula</div><div class="featured-person">${hotBet.name}</div><div class="featured-details">Łączna pula: <strong>${hotBet.totalPool} PLN</strong></div></div>`;
             },
             renderBettingList() {
                 const list = $('#betting-list');
                 list.innerHTML = '';
                 state.people.forEach((p, i) => {
-                    const cardHTML = this.createCardHTML(p, i);
-                    list.insertAdjacentHTML('beforeend', cardHTML);
-                    const cardElement = list.lastElementChild;
-                    this.updateCardContent(cardElement, p);
+                    list.insertAdjacentHTML('beforeend', this.createCardHTML(p, i));
+                    this.updateCardContent(list.lastElementChild, p);
                 });
+            },
+            createCardHTML: (person, index = 0) => `<div class="person-card" data-person-id="${person.id}" style="animation-delay: ${index * 0.07}s"><div class="card-admin-actions"><button class="admin-card-btn" data-action="reset" data-id="${person.id}" title="Resetuj"><i class="fas fa-sync-alt"></i></button><button class="admin-card-btn" data-action="delete" data-id="${person.id}" title="Usuń"><i class="fas fa-trash-alt"></i></button></div><div class="card-header"><div class="person-name">${person.name}</div><div class="bet-type-switcher" data-action="switchView"><button class="switch-btn active" data-view="main-bets-view"><i class="fas fa-star"></i>Główne</button><button class="switch-btn" data-view="detailed-bets-view"><i class="fas fa-list-ol"></i>Szczegółowe</button></div></div><div class="card-body"><div class="bet-view main-bets-view active"></div><div class="bet-view detailed-bets-view"></div></div><div class="card-footer"><div class="bet-progress-bar" data-progress-bar-id="${person.id}"></div><div class="total-pool">Łączna pula: <span data-total-pool-id="${person.id}"></span> PLN</div></div></div>`,
+            updateCardContent(card, person) {
+                const { mainOdds, detailedOdds, totalPool } = logic.calculateOdds(person);
+                card.querySelector('.main-bets-view').innerHTML = `<table class="bet-table"><thead><tr><th>Zakład</th><th>Kurs</th><th></th></tr></thead><tbody><tr><td class="bet-label">Zda</td><td class="bet-odd-value">${mainOdds.pass}</td><td><button class="bet-button" data-action="showBetModal" data-id="${person.id}" data-bet-id="pass" data-bet-type="main">Obstaw</button></td></tr><tr><td class="bet-label">Nie Zda</td><td class="bet-odd-value">${mainOdds.fail}</td><td><button class="bet-button" data-action="showBetModal" data-id="${person.id}" data-bet-id="fail" data-bet-type="main">Obstaw</button></td></tr></tbody></table>`;
+                const detailedRowsHTML = detailedOdds.map(({ rangeId, odd }) => `<tr><td class="bet-label">${CONFIG.BET_RANGES[rangeId].label}</td><td class="bet-odd-value">${odd}</td><td><button class="bet-button" data-action="showBetModal" data-id="${person.id}" data-bet-id="${rangeId}" data-bet-type="detailed">Obstaw</button></td></tr>`).join('');
+                card.querySelector('.detailed-bets-view').innerHTML = `<table class="bet-table"><thead><tr><th>Zakres %</th><th>Kurs</th><th></th></tr></thead><tbody>${detailedRowsHTML}</tbody></table>`;
+                const progressSegmentsHTML = Object.keys(CONFIG.BET_RANGES).map(rangeId => { const percentage = totalPool > 0 ? ((person.bets[rangeId] || 0) / totalPool) * 100 : 0; return `<div class="progress-segment" style="width: ${percentage}%; background-color: ${CONFIG.BET_RANGES[rangeId].color};" title="${CONFIG.BET_RANGES[rangeId].label}"></div>`; }).join('');
+                card.querySelector(`[data-progress-bar-id="${person.id}"]`).innerHTML = progressSegmentsHTML;
+                card.querySelector(`[data-total-pool-id="${person.id}"]`).textContent = totalPool;
             }
-        });
+        };
 
         const actions = {
             async confirmBet() {
-                const amount = parseInt($('#modal-bet-amount').value, 10);
+                const input = $('#modal-bet-amount');
+                const amount = parseInt(input.value.replace(/\D/g, ''), 10);
                 if (isNaN(amount) || amount <= 0) return toast.show("Podaj poprawną kwotę.", 'error');
                 if (amount > user.wallet) return toast.show("Nie masz wystarczających środków!", 'error');
-                
                 const person = state.people.find(p => p.id === currentBet.personId);
                 if (person) {
                     person.bets[currentBet.betId] = (person.bets[currentBet.betId] || 0) + amount;
                     userSystem.updateWallet(-amount);
                     ui.closeModal();
-                    await dataHandler.save();
+                    await api.save();
                     toast.show(`Postawiono ${amount} PLN!`, 'success');
-                    
-                    const card = $(`[data-person-id="${currentBet.personId}"]`);
-                    renderer.updateCardContent(card, person);
+                    renderer.updateCardContent($(`[data-person-id="${currentBet.personId}"]`), person);
                     renderer.renderFeaturedBets();
                 }
             },
             async addPerson() {
                 const name = $('#new-person-name').value.trim();
                 if (!name) return toast.show("Podaj imię i nazwisko.", 'error');
-                
                 const newPerson = { id: Date.now(), name, bets: { pass: 0, fail: 0 } };
                 Object.keys(CONFIG.BET_RANGES).forEach(key => newPerson.bets[key] = 0);
-                
                 state.people.push(newPerson);
-                await dataHandler.save();
+                await api.save();
                 toast.show(`Dodano "${name}"!`, 'success');
                 renderer.renderAll();
                 $('#new-person-name').value = '';
             },
-            async delete(target) {
-                const personId = parseInt(target.dataset.id);
-                const person = state.people.find(p => p.id === personId);
-                if (confirm(`Czy chcesz usunąć ${person.name}?`)) {
-                    state.people = state.people.filter(p => p.id !== personId);
-                    await dataHandler.save();
-                    toast.show(`${person.name} usunięty.`, 'success');
-                    renderer.renderAll();
-                }
-            },
-            async reset(target) {
-                const personId = parseInt(target.dataset.id);
-                const person = state.people.find(p => p.id === personId);
-                if (confirm(`Czy chcesz zresetować zakłady dla ${person.name}?`)) {
-                    Object.keys(person.bets).forEach(key => person.bets[key] = 0);
-                    await dataHandler.save();
-                    toast.show(`Zakłady dla ${person.name} zresetowane.`, 'success');
-                    const card = $(`[data-person-id="${personId}"]`);
-                    renderer.updateCardContent(card, person);
-                    renderer.renderFeaturedBets();
-                }
-            },
+            async delete(target) { const personId = parseInt(target.dataset.id); const person = state.people.find(p => p.id === personId); if (confirm(`Czy na pewno chcesz usunąć ${person.name}?`)) { state.people = state.people.filter(p => p.id !== personId); await api.save(); toast.show(`${person.name} usunięty.`, 'success'); renderer.renderAll(); } },
+            async reset(target) { const personId = parseInt(target.dataset.id); const person = state.people.find(p => p.id === personId); if (confirm(`Czy chcesz zresetować zakłady dla ${person.name}?`)) { Object.keys(person.bets).forEach(key => person.bets[key] = 0); await api.save(); toast.show(`Zakłady dla ${person.name} zresetowane.`, 'success'); renderer.updateCardContent($(`[data-person-id="${personId}"]`), person); renderer.renderFeaturedBets(); } },
             switchView(target) {
                 const switcher = target.closest('.bet-type-switcher');
                 const card = target.closest('.person-card');
                 const viewToShow = target.dataset.view;
-
+                switcher.classList.toggle('view-detailed', viewToShow === 'detailed-bets-view');
                 switcher.querySelectorAll('.switch-btn').forEach(btn => btn.classList.remove('active'));
-                target.classList.add('active');
-
-                card.querySelectorAll('.bet-view').forEach(view => {
-                    view.classList.toggle('active', view.classList.contains(viewToShow));
-                });
+                switcher.querySelector(`[data-view="${viewToShow}"]`).classList.add('active');
+                card.querySelectorAll('.bet-view').forEach(view => view.classList.toggle('active', view.classList.contains(viewToShow)));
+            },
+            setBetAmount(target) {
+                const input = $('#modal-bet-amount');
+                const amount = target.dataset.amount;
+                if (amount === 'max') { input.value = user.wallet; } else { const currentVal = parseInt(input.value) || 0; input.value = Math.min(user.wallet, currentVal + parseInt(amount)); }
             }
         };
 
@@ -428,7 +326,7 @@
             if (new URLSearchParams(window.location.search).get('admin') === CONFIG.ADMIN_KEY) {
                 document.body.classList.add('admin-mode');
             }
-            dataHandler.fetch();
+            api.fetch();
         });
     </script>
 </body>
