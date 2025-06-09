@@ -3,413 +3,539 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klasowy Typer Egzaminacyjny</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    <title>Egzaminator PRO - Zakłady</title>
+    
+    <!-- Import czcionki i ikon -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
+    <style>
         :root {
-            --primary-color: #6a11cb;
-            --secondary-color: #2575fc;
-            --background-color: #1a1a2e;
-            --surface-color: #16213e;
-            --text-color: #e3e3e3;
-            --accent-color: #f7b733;
-            --success-color: #2ecc71;
-            --danger-color: #e74c3c;
-            --neutral-color: #95a5a6;
-            --admin-color: #ff4757;
+            --bg-gradient: linear-gradient(135deg, #1d2b4a, #1a1c1e);
+            --card-bg: rgba(44, 47, 51, 0.6);
+            --primary-color: #00ff89;
+            --primary-gradient: linear-gradient(90deg, #00ff89, #00c2a9);
+            --secondary-color: #ffc400; /* Złoty akcent na kursy */
+            --text-color: #f0f0f0;
+            --text-muted: #a0a0b0;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --font-family: 'Poppins', sans-serif;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
+        /* --- GLOBALNE STYLE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            font-family: var(--font-family);
+            background: var(--bg-gradient);
             color: var(--text-color);
             padding: 20px;
-            display: flex;
-            justify-content: center;
             min-height: 100vh;
         }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background-color: var(--surface-color);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
+        /* --- NAGŁÓWEK --- */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 15px;
-            margin-bottom: 25px;
+            text-align: center;
+            margin-bottom: 50px;
         }
 
-        h1 { font-size: 2em; font-weight: 700; text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
-
-        .header-info { display: flex; align-items: center; gap: 15px; }
-
-        #admin-indicator {
-            background-color: var(--admin-color);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9em;
-            display: none; /* Ukryty domyślnie */
+        header h1 {
+            font-size: 3em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(0, 255, 137, 0.3);
         }
-
-        #user-balance {
-            background-color: var(--accent-color);
-            color: #1a1a2e;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
+        
+        header p {
+            color: var(--text-muted);
             font-size: 1.1em;
-            box-shadow: 0 0 15px rgba(247, 183, 51, 0.5);
+            font-weight: 300;
         }
-        
-        #admin-panel {
-            background-color: rgba(255, 255, 255, 0.05);
+
+        /* --- GŁÓWNY KONTENER --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- LISTA ZAKŁADÓW I KARTY --- */
+        .betting-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        @keyframes card-enter {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .person-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: card-enter 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .person-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .card-header {
             padding: 20px;
-            border-radius: 10px;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .person-name {
+            font-size: 1.7em;
+            font-weight: 600;
+        }
+
+        .card-body { padding: 25px; }
+
+        .odds-container {
+            display: flex;
+            justify-content: space-around;
             margin-bottom: 25px;
-            display: none; /* Ukryty domyślnie */
-            animation: fadeIn 0.5s ease;
+            text-align: center;
+        }
+
+        .odd-label {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .odd-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--secondary-color);
+            text-shadow: 0 0 10px rgba(255, 196, 0, 0.4);
+        }
+
+        .bet-buttons { display: flex; gap: 15px; }
+
+        .bet-button {
+            flex-grow: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #1a1c1e;
+            text-transform: uppercase;
+        }
+
+        .bet-button:active { transform: scale(0.97); }
+
+        .bet-button.yes { background: var(--primary-gradient); }
+        .bet-button.yes:hover { box-shadow: 0 0 15px var(--primary-color); }
+
+        .bet-button.no { background: linear-gradient(90deg, #ff5f6d, #ffc371); }
+        .bet-button.no:hover { box-shadow: 0 0 15px #ff5f6d; }
+        
+        .total-pool {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* --- PANEL ADMINA --- */
+        #admin-panel {
+            display: none;
+            background: var(--card-bg);
+            padding: 30px;
+            margin: 60px auto;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            max-width: 500px;
+            backdrop-filter: blur(10px);
         }
         
-        #admin-panel h2 { margin-bottom: 15px; text-align: center; color: var(--accent-color); }
+        #admin-panel h2 { text-align: center; margin-bottom: 25px; font-weight: 600; }
+        .admin-form { display: flex; gap: 10px; }
 
-        .form-container { display: flex; gap: 10px; }
-
-        .input-field {
-            flex-grow: 1; padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2);
-            background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; font-size: 16px;
-            color: var(--text-color);
-        }
-        .input-field::placeholder { color: rgba(255, 255, 255, 0.5); }
-        .input-field:focus { outline: none; border-color: var(--accent-color); }
-        
-        .btn {
-            padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer;
-            font-size: 16px; font-weight: 600; transition: all 0.3s ease;
-        }
-        .btn-primary { background-color: var(--accent-color); color: #1a1a2e; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(247, 183, 51, 0.4); }
-
-        .student-list { list-style: none; }
-        .empty-list-message {
-            text-align: center; padding: 40px; background-color: rgba(0,0,0,0.2);
-            border-radius: 10px; color: var(--neutral-color);
+        .admin-input {
+            flex-grow: 1; padding: 12px; border: 1px solid var(--border-color);
+            background-color: rgba(0,0,0,0.2); color: var(--text-color);
+            border-radius: 8px; font-size: 1em; font-family: var(--font-family);
         }
 
-        .student-item {
-            background-color: rgba(0, 0, 0, 0.2); border-radius: 10px; margin-bottom: 15px;
-            padding: 20px; display: flex; flex-direction: column; gap: 15px;
-            border-left: 5px solid var(--neutral-color); transition: border-left-color 0.3s ease;
+        .admin-button {
+            padding: 12px 20px; border: none; background: var(--primary-gradient);
+            color: #1a1c1e; border-radius: 8px; cursor: pointer;
+            font-size: 1em; font-weight: 600; transition: box-shadow 0.2s ease;
         }
-        .student-item.new-item { animation: fadeIn 0.5s ease-out; }
-        .student-item.status-zda { border-left-color: var(--success-color); }
-        .student-item.status-nie-zda { border-left-color: var(--danger-color); }
+        .admin-button:hover { box-shadow: 0 0 15px var(--primary-color); }
+        .admin-button i { margin-right: 8px; }
 
-        .student-info { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .student-name { font-size: 1.4em; font-weight: 600; }
-
-        .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 0.9em; font-weight: 600; color: #fff; }
-        .status-badge.official-result { font-size: 1em; }
-        .status-badge.result-pass { background-color: var(--success-color); }
-        .status-badge.result-fail { background-color: var(--danger-color); }
-        .status-badge.bet-pending { background-color: var(--accent-color); color: #1a1a2e; }
-        .status-badge.bet-won { background: linear-gradient(45deg, #00b09b, #96c93d); }
-        .status-badge.bet-lost { background: linear-gradient(45deg, #ff512f, #dd2476); }
-        .status-badge.bet-open { background-color: var(--neutral-color); }
-
-        .actions-container { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-
-        .betting-controls { display: flex; gap: 10px; align-items: center; }
-        .bet-input {
-            width: 80px; padding: 8px; text-align: center; background-color: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2); color: var(--text-color); border-radius: 5px;
+        /* --- LOADER --- */
+        #loader-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); display: flex;
+            justify-content: center; align-items: center; z-index: 1000;
         }
-
-        .bet-btn { padding: 8px 12px; font-size: 14px; border-radius: 5px; }
-        .btn-pass { background-color: var(--success-color); color: white; }
-        .btn-fail { background-color: var(--danger-color); color: white; }
-        .btn-pass:hover { background-color: #27ae60; }
-        .btn-fail:hover { background-color: #c0392b; }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        .admin-controls { display: flex; gap: 10px; }
-        .admin-btn { background-color: transparent; border: 1px solid var(--neutral-color); color: var(--neutral-color); padding: 8px 12px; font-size: 14px; }
-        .admin-btn:hover { background-color: var(--neutral-color); color: var(--surface-color); }
-        
-        @media (max-width: 600px) {
-            h1 { font-size: 1.5em; }
-            .student-info, .actions-container { flex-direction: column; align-items: flex-start; gap: 10px; }
+        .loader-spinner {
+            border: 5px solid var(--border-color);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px; height: 50px;
+            animation: spin 1s linear infinite;
         }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- OKNO MODALNE DO OBSTAWIANIA --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center;
+            align-items: center; z-index: 999;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.visible { opacity: 1; pointer-events: all; }
+
+        .modal {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            padding: 30px; border-radius: 15px;
+            border: 1px solid var(--border-color);
+            width: 90%; max-width: 400px; text-align: center;
+            transform: scale(0.9); transition: transform 0.3s ease;
+        }
+        .modal-overlay.visible .modal { transform: scale(1); }
+        .modal h3 { font-size: 1.5em; margin-bottom: 10px; }
+        .modal p { color: var(--text-muted); margin-bottom: 20px; }
+        .modal-input {
+            width: 100%; padding: 15px; font-size: 1.2em; text-align: center;
+            background: rgba(0,0,0,0.3); border: 1px solid var(--border-color);
+            color: var(--text-color); border-radius: 8px; margin-bottom: 20px;
+            font-family: var(--font-family);
+        }
+        .modal-actions { display: flex; gap: 15px; }
+
+        /* --- POWIADOMIENIA "TOAST" --- */
+        #toast-container {
+            position: fixed; bottom: 20px; right: 20px;
+            display: flex; flex-direction: column; gap: 10px;
+            z-index: 1001;
+        }
+        .toast {
+            padding: 15px 25px; border-radius: 8px;
+            color: white; font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            animation: toast-in 0.3s ease, toast-out 0.3s ease 3.7s forwards;
+        }
+        .toast.success { background: var(--success-color); }
+        .toast.error { background: var(--error-color); }
+        @keyframes toast-in { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes toast-out { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Klasowy Typer 🏆</h1>
-            <div class="header-info">
-                <span id="admin-indicator"></span>
-                <div id="user-balance"></div>
-            </div>
-        </header>
+    <header>
+        <h1>Egzaminator PRO</h1>
+        <p>Obstawiaj wyniki egzaminów w wielkim stylu.</p>
+    </header>
 
-        <div id="admin-panel">
-            <h2>Panel Administratora</h2>
-            <div class="form-container">
-                <input type="text" id="student-name-input" class="input-field" placeholder="Imię i nazwisko nowego ucznia...">
-                <button id="add-student-button" class="btn btn-primary">Dodaj</button>
-            </div>
+    <main class="container">
+        <div id="betting-list" class="betting-list"></div>
+    </main>
+
+    <!-- LOADER -->
+    <div id="loader-overlay">
+        <div class="loader-spinner"></div>
+    </div>
+    
+    <!-- PANEL ADMINA -->
+    <div id="admin-panel">
+        <h2><i class="fas fa-user-shield"></i> Panel Administratora</h2>
+        <div class="admin-form">
+            <input type="text" id="new-person-name" class="admin-input" placeholder="Imię i nazwisko">
+            <button id="add-person-button" class="admin-button"><i class="fas fa-plus"></i>Dodaj</button>
         </div>
-
-        <ul id="student-list" class="student-list"></ul>
     </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
+    <!-- OKNO MODALNE DO OBSTAWIANIA -->
+    <div id="bet-modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <h3 id="modal-title">Obstaw zakład</h3>
+            <p id="modal-subtitle">Wpisz kwotę, którą chcesz postawić.</p>
+            <input type="number" id="modal-bet-amount" class="modal-input" placeholder="0" min="1">
+            <div class="modal-actions">
+                <button id="modal-cancel" class="bet-button no" style="flex-grow: 0.5;">Anuluj</button>
+                <button id="modal-confirm" class="bet-button yes">Zatwierdź</button>
+            </div>
+        </div>
+    </div>
 
-    // === KONFIGURACJA ===
-    const ADMIN_KEY = 'admin123'; // ZMIEŃ TEN KLUCZ NA SWÓJ WŁASNY, TAJNY KLUCZ!
-    const STARTING_BALANCE = 1000;
-    const PAYOUT_MULTIPLIER = 2;
-    const STORAGE_KEYS = {
-        STUDENTS: 'classExamStudents_v3',
-        BETS: 'classExamUserBets_v3',
-        BALANCE: 'classExamUserBalance_v3'
-    };
+    <!-- KONTENER NA POWIADOMIENIA -->
+    <div id="toast-container"></div>
 
-    // === ELEMENTY DOM ===
-    const studentNameInput = document.getElementById('student-name-input');
-    const addStudentButton = document.getElementById('add-student-button');
-    const adminPanel = document.getElementById('admin-panel');
-    const adminIndicator = document.getElementById('admin-indicator');
-    const studentListContainer = document.getElementById('student-list');
-    const userBalanceDisplay = document.getElementById('user-balance');
 
-    // === STAN APLIKACJI ===
-    let students = [];
-    let userBets = {};
-    let userBalance = STARTING_BALANCE;
-    let isAdmin = false;
+    <script>
+        // --- KONFIGURACJA (UZUPEŁNIJ!) ---
+        const config = {
+            API_URL: 'https://api.jsonbin.io/v3/b/684726828a456b7966ab6bc7',
+            API_KEY: '$2a$10$T3nkKRACm80x5BL9/RR/D.btKlIEXaG6NDod8aDskPkob2OuszNrO', 
+            ADMIN_KEY: 'ronim'
+        };
+        
+        // --- STAN APLIKACJI ---
+        let state = { people: [] };
+        let currentBet = { personId: null, outcome: null }; // Przechowuje info dla modala
 
-    // === GŁÓWNA LOGIKA ===
-    
-    const loadState = () => {
-        students = JSON.parse(localStorage.getItem(STORAGE_KEYS.STUDENTS)) || [];
-        userBets = JSON.parse(localStorage.getItem(STORAGE_KEYS.BETS)) || {};
-        userBalance = parseFloat(localStorage.getItem(STORAGE_KEYS.BALANCE)) || STARTING_BALANCE;
-    };
-    
-    const saveState = () => {
-        // Tylko admin może zapisywać listę studentów
-        if (isAdmin) {
-            localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(students));
+        // --- GŁÓWNE ELEMENTY DOM ---
+        const bettingList = document.getElementById('betting-list');
+        const loaderOverlay = document.getElementById('loader-overlay');
+        const adminPanel = document.getElementById('admin-panel');
+        const modalOverlay = document.getElementById('bet-modal-overlay');
+        const toastContainer = document.getElementById('toast-container');
+
+        // --- FUNKCJE POMOCNICZE ---
+        const showLoader = () => loaderOverlay.style.display = 'flex';
+        const hideLoader = () => loaderOverlay.style.display = 'none';
+
+        /**
+         * Pokazuje powiadomienie "toast"
+         */
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-times-circle'}"></i> ${message}`;
+            toastContainer.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
         }
-        localStorage.setItem(STORAGE_KEYS.BETS, JSON.stringify(userBets));
-        localStorage.setItem(STORAGE_KEYS.BALANCE, userBalance.toString());
-    };
 
-    const checkAdminMode = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('key') === ADMIN_KEY) {
-            isAdmin = true;
-            adminPanel.style.display = 'block';
-            adminIndicator.textContent = '👑 Tryb Admina';
-            adminIndicator.style.display = 'inline-block';
+        /**
+         * Pobiera dane z JSONBin
+         */
+        async function fetchData() {
+            if (!config.API_URL.includes('https://api.jsonbin.io') || !config.API_KEY.includes('$2a$10')) {
+                hideLoader();
+                bettingList.innerHTML = '<p style="text-align:center; color: var(--error-color); font-size: 1.2em;">Aplikacja nie jest skonfigurowana! Uzupełnij API_URL i API_KEY w kodzie.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(config.API_URL + '/latest', {
+                    headers: { 'X-Master-Key': config.API_KEY }
+                });
+                if (!response.ok) throw new Error(`Błąd sieci: ${response.status}`);
+                const data = await response.json();
+                state = data.record || { people: [] };
+            } catch (error) {
+                console.error('Nie udało się pobrać danych:', error);
+                showToast('Błąd pobierania danych!', 'error');
+            } finally {
+                hideLoader();
+                render();
+            }
         }
-    };
-    
-    const checkResolvedBets = () => {
-        let balanceChanged = false;
-        students.forEach(student => {
-            const bet = userBets[student.id];
-            if (bet && !bet.paid && student.status.startsWith('Wynik')) {
-                const officialResult = student.status.includes('Zdał') ? 'Zda' : 'Nie zda';
-                if (bet.choice === officialResult) {
-                    userBalance += bet.amount * PAYOUT_MULTIPLIER;
-                    bet.status = 'won';
-                } else {
-                    bet.status = 'lost';
+
+        /**
+         * Zapisuje dane w JSONBin
+         */
+        async function saveData() {
+            showLoader();
+            try {
+                await fetch(config.API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': config.API_KEY
+                    },
+                    body: JSON.stringify(state)
+                });
+            } catch (error) {
+                console.error('Nie udało się zapisać danych:', error);
+                showToast('Błąd zapisu danych!', 'error');
+            } finally {
+                hideLoader();
+            }
+        }
+        
+        /**
+         * Oblicza kursy
+         */
+        function calculateOdds(person) {
+            const totalYes = person.bets.yes || 1;
+            const totalNo = person.bets.no || 1;
+            const totalPool = totalYes + totalNo;
+            const margin = 0.90;
+
+            const formatOdd = (odd) => Math.max(1.05, odd).toFixed(2);
+
+            return {
+                yes: formatOdd((totalPool / totalYes) * margin),
+                no: formatOdd((totalPool / totalNo) * margin)
+            };
+        }
+
+        /**
+         * Renderuje listę osób
+         */
+        function render() {
+            bettingList.innerHTML = '';
+            if (state.people.length === 0) {
+                bettingList.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Admin nie dodał jeszcze żadnych osób do obstawiania.</p>';
+                return;
+            }
+
+            state.people.forEach((person, index) => {
+                const odds = calculateOdds(person);
+                const totalPersonPool = (person.bets.yes || 0) + (person.bets.no || 0);
+
+                const card = document.createElement('div');
+                card.className = 'person-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.innerHTML = `
+                    <div class="card-header"><div class="person-name">${person.name}</div></div>
+                    <div class="card-body">
+                        <div class="odds-container">
+                            <div>
+                                <div class="odd-label">ZDA</div>
+                                <div class="odd-value">${odds.yes}</div>
+                            </div>
+                            <div>
+                                <div class="odd-label">NIE ZDA</div>
+                                <div class="odd-value">${odds.no}</div>
+                            </div>
+                        </div>
+                        <div class="bet-buttons">
+                            <button class="bet-button yes" data-id="${person.id}" data-outcome="yes">Obstaw "ZDA"</button>
+                            <button class="bet-button no" data-id="${person.id}" data-outcome="no">Obstaw "NIE ZDA"</button>
+                        </div>
+                        <div class="total-pool">Łączna pula: ${totalPersonPool} PLN</div>
+                    </div>`;
+                bettingList.appendChild(card);
+            });
+        }
+        
+        /**
+         * Pokazuje okno modalne do obstawiania
+         */
+        function showBetModal(personId, outcome) {
+            const person = state.people.find(p => p.id === personId);
+            if (!person) return;
+            
+            currentBet = { personId, outcome };
+
+            document.getElementById('modal-title').innerText = `Obstawiasz: ${person.name}`;
+            document.getElementById('modal-subtitle').innerText = `Wynik: ${outcome === 'yes' ? 'ZDA' : 'NIE ZDA'}`;
+            document.getElementById('modal-bet-amount').value = '';
+            modalOverlay.classList.add('visible');
+            document.getElementById('modal-bet-amount').focus();
+        }
+
+        /**
+         * Ukrywa okno modalne
+         */
+        function hideBetModal() {
+            modalOverlay.classList.remove('visible');
+        }
+
+        /**
+         * Przetwarza zakład po potwierdzeniu w modalu
+         */
+        async function confirmBet() {
+            const { personId, outcome } = currentBet;
+            const amountInput = document.getElementById('modal-bet-amount');
+            const amount = parseInt(amountInput.value, 10);
+
+            if (isNaN(amount) || amount <= 0) {
+                showToast("Podaj poprawną, dodatnią kwotę.", 'error');
+                return;
+            }
+            
+            const person = state.people.find(p => p.id === personId);
+            if (person) {
+                person.bets[outcome] += amount;
+                hideBetModal();
+                await saveData();
+                showToast(`Postawiono ${amount} PLN!`, 'success');
+                render(); // Przerenderuj, aby zaktualizować kursy
+            }
+        }
+        
+        /**
+         * Dodaje nową osobę (funkcja admina)
+         */
+        async function addPerson() {
+            const nameInput = document.getElementById('new-person-name');
+            const name = nameInput.value.trim();
+            if (!name) {
+                showToast("Podaj imię i nazwisko.", 'error');
+                return;
+            }
+            state.people.push({
+                id: Date.now(),
+                name: name,
+                bets: { yes: 0, no: 0 }
+            });
+            await saveData();
+            showToast(`Dodano "${name}" do listy!`, 'success');
+            render();
+            nameInput.value = '';
+        }
+
+        /**
+         * Sprawdza dostęp admina
+         */
+        function checkAdminAccess() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') === config.ADMIN_KEY) {
+                adminPanel.style.display = 'block';
+            }
+        }
+
+        // --- INICJALIZACJA I NASŁUCHIWANIE ZDARZEŃ ---
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAdminAccess();
+            fetchData();
+            
+            // Kliknięcia na przyciski obstawiania
+            bettingList.addEventListener('click', (e) => {
+                if (e.target.matches('.bet-button')) {
+                    const personId = parseInt(e.target.dataset.id, 10);
+                    const outcome = e.target.dataset.outcome;
+                    showBetModal(personId, outcome);
                 }
-                bet.paid = true;
-                balanceChanged = true;
-            }
+            });
+
+            // Akcje w panelu admina
+            document.getElementById('add-person-button').addEventListener('click', addPerson);
+            document.getElementById('new-person-name').addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') addPerson();
+            });
+
+            // Akcje w oknie modalnym
+            document.getElementById('modal-confirm').addEventListener('click', confirmBet);
+            document.getElementById('modal-cancel').addEventListener('click', hideBetModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) hideBetModal();
+            });
         });
-
-        if (balanceChanged) saveState();
-    };
-
-    // === RENDEROWANIE INTERFEJSU ===
-
-    const render = (newlyAddedId = null) => {
-        userBalanceDisplay.innerHTML = `Saldo: ${Math.round(userBalance)} 🪙`;
-        studentListContainer.innerHTML = '';
-
-        if (students.length === 0) {
-            studentListContainer.innerHTML = `<li class="empty-list-message"><h3>Lista jest pusta</h3><p>Administrator musi dodać uczniów, aby można było obstawiać.</p></li>`;
-            return;
-        }
-
-        students.forEach(student => {
-            const li = document.createElement('li');
-            const userBet = userBets[student.id];
-            
-            let itemStatusClass = '';
-            if (student.status.startsWith('Wynik: Zdał')) itemStatusClass = 'status-zda';
-            if (student.status.startsWith('Wynik: Nie zdał')) itemStatusClass = 'status-nie-zda';
-            if (student.id === newlyAddedId) itemStatusClass += ' new-item';
-            li.className = `student-item ${itemStatusClass}`;
-            
-            let statusHTML = '';
-            if (student.status.startsWith('Wynik')) {
-                const resultClass = student.status.includes('Zdał') ? 'result-pass' : 'result-fail';
-                statusHTML = `<span class="status-badge official-result ${resultClass}">${student.status}</span>`;
-            } else if (userBet) {
-                let betStatusClass = '', betText = `Obstawiono: ${userBet.amount} na "${userBet.choice}"`;
-                if(userBet.status === 'won') { betStatusClass = 'bet-won'; betText = `Wygrana! +${userBet.amount * PAYOUT_MULTIPLIER} 🪙`; } 
-                else if (userBet.status === 'lost') { betStatusClass = 'bet-lost'; betText = `Przegrana -${userBet.amount} 🪙`; } 
-                else { betStatusClass = 'bet-pending'; }
-                statusHTML = `<span class="status-badge ${betStatusClass}">${betText}</span>`;
-            } else {
-                statusHTML = `<span class="status-badge bet-open">Otwarty do obstawiania</span>`;
-            }
-
-            let actionsHTML = '';
-            const isResolved = student.status.startsWith('Wynik');
-            
-            if (!userBet && !isResolved) {
-                actionsHTML = `
-                    <div class="betting-controls">
-                        <input type="number" class="bet-input" placeholder="Stawka" min="1" step="1" id="bet-amount-${student.id}">
-                        <button class="btn bet-btn btn-pass" data-action="bet-pass" data-id="${student.id}">Obstaw Zda</button>
-                        <button class="btn bet-btn btn-fail" data-action="bet-fail" data-id="${student.id}">Obstaw Nie Zda</button>
-                    </div>`;
-            }
-            
-            let adminControlsHTML = '';
-            if (isAdmin) {
-                adminControlsHTML = `
-                    <div class="admin-controls">
-                        ${!isResolved ? `
-                        <button class="btn admin-btn" data-action="resolve-pass" data-id="${student.id}">✔️ Rozstrzygnij: Zdał</button>
-                        <button class="btn admin-btn" data-action="resolve-fail" data-id="${student.id}">❌ Rozstrzygnij: Nie zdał</button>` : ''}
-                        <button class="btn admin-btn" data-action="delete-student" data-id="${student.id}">🗑️ Usuń</button>
-                    </div>`;
-            }
-
-            li.innerHTML = `
-                <div class="student-info">
-                    <span class="student-name">${student.name}</span>
-                    ${statusHTML}
-                </div>
-                <div class="actions-container">
-                    ${actionsHTML}
-                    ${adminControlsHTML}
-                </div>`;
-            studentListContainer.appendChild(li);
-        });
-    };
-
-    // === AKCJE UŻYTKOWNIKA ===
-
-    const handleAddStudent = () => {
-        if (!isAdmin) return; // Zabezpieczenie
-        const name = studentNameInput.value.trim();
-        if (name === '') {
-            alert('Wpisz imię i nazwisko ucznia!');
-            return;
-        }
-        const newStudent = { id: Date.now(), name: name, status: 'Nieobstawione' };
-        students.push(newStudent);
-        studentNameInput.value = '';
-        saveState();
-        render(newStudent.id); // Przekazujemy ID nowego elementu do renderowania z animacją
-    };
-
-    const placeBet = (studentId, choice) => {
-        const amountInput = document.getElementById(`bet-amount-${studentId}`);
-        const amount = parseFloat(amountInput.value);
-
-        if (isNaN(amount) || amount <= 0) { alert('Proszę podać poprawną, dodatnią stawkę.'); return; }
-        if (amount > userBalance) { alert('Nie masz wystarczających środków!'); return; }
-        if (userBets[studentId]) { alert('Już obstawiłeś wynik dla tego ucznia!'); return; }
-
-        userBalance -= amount;
-        userBets[studentId] = { choice, amount, paid: false };
-        saveState();
-        render();
-    };
-    
-    const resolveStudent = (studentId, result) => {
-        if (!isAdmin) return;
-        const student = students.find(s => s.id === studentId);
-        if (student && confirm(`Czy na pewno chcesz rozstrzygnąć zakład dla "${student.name}" jako "${result}"?\nTa akcja jest nieodwracalna.`)) {
-            student.status = result;
-            saveState();
-            checkResolvedBets(); // Natychmiast rozlicz zakłady i zaktualizuj saldo
-            render();
-        }
-    };
-
-    const deleteStudent = (studentId) => {
-        if (!isAdmin) return;
-        const student = students.find(s => s.id === studentId);
-        if (student && confirm(`Czy na pewno usunąć "${student.name}" z listy?\nUsunięte zostaną również wszystkie powiązane zakłady.`)) {
-            students = students.filter(s => s.id !== studentId);
-            delete userBets[studentId]; // Usunięcie powiązanych zakładów
-            saveState();
-            render();
-        }
-    };
-
-    // === REJESTRACJA EVENT LISTENERÓW ===
-
-    addStudentButton.addEventListener('click', handleAddStudent);
-    studentNameInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleAddStudent();
-    });
-
-    studentListContainer.addEventListener('click', (e) => {
-        const target = e.target.closest('button');
-        if (!target) return;
-
-        const action = target.dataset.action;
-        const id = parseInt(target.dataset.id);
-
-        if (!action || !id) return;
-
-        switch (action) {
-            case 'bet-pass': placeBet(id, 'Zda'); break;
-            case 'bet-fail': placeBet(id, 'Nie zda'); break;
-            case 'resolve-pass': resolveStudent(id, 'Wynik: Zdał'); break;
-            case 'resolve-fail': resolveStudent(id, 'Wynik: Nie zdał'); break;
-            case 'delete-student': deleteStudent(id); break;
-        }
-    });
-
-    // === INICJALIZACJA APLIKACJI ===
-    checkAdminMode();
-    loadState();
-    checkResolvedBets();
-    render();
-});
-</script>
-
+    </script>
 </body>
 </html>
