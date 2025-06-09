@@ -3,248 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Egzaminator PRO - Zakłady</title>
+    <title>Egzaminator: Enterprise Edition</title>
     
-    <!-- Import czcionki i ikon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💎</text></svg>">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #1d2b4a, #1a1c1e);
-            --card-bg: rgba(44, 47, 51, 0.6);
-            --primary-color: #00ff89;
-            --primary-gradient: linear-gradient(90deg, #00ff89, #00c2a9);
-            --secondary-color: #ffc400; /* Złoty akcent na kursy */
-            --text-color: #f0f0f0;
-            --text-muted: #a0a0b0;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --success-color: #28a745;
-            --error-color: #dc3545;
+            --bg-gradient: linear-gradient(145deg, #10121b, #1d1f2b);
+            --card-bg: rgba(31, 34, 46, 0.5);
+            --primary-color: #00e0a0;
+            --primary-gradient: linear-gradient(90deg, #00e0a0, #00c4b1);
+            --secondary-color: #ffc82c;
+            --text-color: #e8e8e8;
+            --text-muted: #9a9fab;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --success-color: #00e0a0;
+            --error-color: #ff5252;
             --font-family: 'Poppins', sans-serif;
         }
-
-        /* --- GLOBALNE STYLE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        html { scroll-behavior: smooth; }
         body {
-            font-family: var(--font-family);
-            background: var(--bg-gradient);
-            color: var(--text-color);
-            padding: 20px;
-            min-height: 100vh;
+            font-family: var(--font-family); background-color: #10121b;
+            background-image: var(--bg-gradient); color: var(--text-color);
+            padding: clamp(1rem, 3vw, 2rem); min-height: 100vh;
         }
 
-        /* --- NAGŁÓWEK --- */
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        header h1 {
-            font-size: 3em;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 15px rgba(0, 255, 137, 0.3);
-        }
+        .container { max-width: 1400px; margin: 0 auto; }
         
-        header p {
-            color: var(--text-muted);
-            font-size: 1.1em;
-            font-weight: 300;
-        }
-
-        /* --- GŁÓWNY KONTENER --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* --- LISTA ZAKŁADÓW I KARTY --- */
-        .betting-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
-        }
-
-        @keyframes card-enter {
-            from { opacity: 0; transform: translateY(30px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .person-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: card-enter 0.5s ease-out forwards;
-            opacity: 0;
-        }
-
-        .person-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
-        }
-
-        .card-header {
-            padding: 20px;
-            text-align: center;
-            background: rgba(0,0,0,0.2);
-        }
-
-        .person-name {
-            font-size: 1.7em;
-            font-weight: 600;
-        }
-
+        header { text-align: center; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+        .user-profile { display: flex; align-items: center; justify-content: flex-end; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+        .user-info, .wallet-display { background: var(--card-bg); padding: 10px 20px; border-radius: 10px; border: 1px solid var(--border-color); font-weight: 600; font-size: clamp(0.9rem, 2.5vw, 1.1rem); backdrop-filter: blur(5px); }
+        .user-info i { color: var(--primary-color); }
+        .wallet-display i { color: var(--secondary-color); }
+        .user-info i, .wallet-display i { margin-right: 8px; }
+        header h1 { font-size: clamp(2rem, 8vw, 4.5rem); font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 25px rgba(0, 221, 155, 0.2); }
+        
+        .featured-bets { margin-bottom: 40px; }
+        .featured-bets h2 { text-align: center; font-size: 1.8rem; margin-bottom: 25px; color: var(--text-muted); }
+        .featured-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .featured-card { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; border-left: 4px solid; transition: all 0.3s ease; }
+        .featured-card:hover { transform: scale(1.03); background: rgba(0,0,0,0.3); }
+        .featured-card.sure-bet { border-color: var(--success-color); }
+        .featured-card.risky-bet { border-color: var(--error-color); }
+        .featured-card.hot-bet { border-color: var(--secondary-color); }
+        .featured-title { font-weight: 600; margin-bottom: 5px; }
+        .featured-person { font-size: 1.3em; font-weight: 700; }
+        .featured-details { color: var(--text-muted); font-size: 0.9em; }
+        
+        #add-person-panel { display: none; background: var(--card-bg); padding: 30px; margin: 40px auto; border-radius: 15px; border: 1px solid var(--border-color); max-width: 500px; backdrop-filter: blur(10px); }
+        .admin-mode #add-person-panel { display: block; }
+        #add-person-panel h2 { text-align: center; margin-bottom: 25px; font-weight: 600; }
+        .add-person-form { display: flex; gap: 10px; }
+        .add-person-input { flex-grow: 1; padding: 12px; border: 1px solid var(--border-color); background-color: rgba(0,0,0,0.2); color: var(--text-color); border-radius: 8px; font-size: 1em; font-family: var(--font-family); }
+        .add-person-button { padding: 12px 20px; border: none; background: var(--primary-gradient); color: #1a1c1e; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 600; transition: box-shadow 0.2s ease; }
+        .add-person-button:hover { box-shadow: 0 0 15px var(--primary-color); }
+        
+        .betting-list { display: grid; grid-template-columns: 1fr; gap: clamp(1.5rem, 3vw, 2.5rem); }
+        @keyframes card-enter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .person-card { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); backdrop-filter: blur(12px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); overflow: hidden; transition: all 0.3s ease; animation: card-enter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; opacity: 0; position: relative; }
+        .card-header { padding: 20px 25px; text-align: center; background: rgba(0,0,0,0.15); }
+        .person-name { font-size: 1.6em; font-weight: 600; }
         .card-body { padding: 25px; }
 
-        .odds-container {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 25px;
-            text-align: center;
-        }
+        .bet-progress-bar { height: 12px; display: flex; border-radius: 6px; overflow: hidden; background-color: rgba(0,0,0,0.3); margin-bottom: 25px; }
+        .progress-segment { height: 100%; transition: width 0.5s ease; }
 
-        .odd-label {
-            font-size: 0.9em;
-            color: var(--text-muted);
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .odd-value {
-            font-size: 2.5em;
-            font-weight: 700;
-            color: var(--secondary-color);
-            text-shadow: 0 0 10px rgba(255, 196, 0, 0.4);
-        }
-
-        .bet-buttons { display: flex; gap: 15px; }
-
-        .bet-button {
-            flex-grow: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #1a1c1e;
-            text-transform: uppercase;
-        }
-
-        .bet-button:active { transform: scale(0.97); }
-
-        .bet-button.yes { background: var(--primary-gradient); }
-        .bet-button.yes:hover { box-shadow: 0 0 15px var(--primary-color); }
-
-        .bet-button.no { background: linear-gradient(90deg, #ff5f6d, #ffc371); }
-        .bet-button.no:hover { box-shadow: 0 0 15px #ff5f6d; }
+        .bet-table { width: 100%; border-collapse: collapse; }
+        .bet-table th, .bet-table td { padding: 12px; text-align: center; border-bottom: 1px solid var(--border-color); }
+        .bet-table th { color: var(--text-muted); font-weight: 400; }
+        .bet-table tr:last-child td { border-bottom: none; }
+        .bet-table tr:hover { background: rgba(255,255,255,0.05); }
+        .bet-range-label { font-weight: 600; }
+        .bet-odd-value { font-weight: 700; font-size: 1.4em; color: var(--secondary-color); }
+        .bet-button-cell .bet-button { width: 100%; padding: 10px; font-size: 0.9em; border-radius: 8px; }
         
-        .total-pool {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 0.9em;
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-
-        /* --- PANEL ADMINA --- */
-        #admin-panel {
-            display: none;
-            background: var(--card-bg);
-            padding: 30px;
-            margin: 60px auto;
-            border-radius: 15px;
-            border: 1px solid var(--border-color);
-            max-width: 500px;
-            backdrop-filter: blur(10px);
-        }
+        .total-pool { margin-top: 20px; text-align: right; font-size: 0.9em; color: var(--text-muted); font-weight: 300; }
         
-        #admin-panel h2 { text-align: center; margin-bottom: 25px; font-weight: 600; }
-        .admin-form { display: flex; gap: 10px; }
-
-        .admin-input {
-            flex-grow: 1; padding: 12px; border: 1px solid var(--border-color);
-            background-color: rgba(0,0,0,0.2); color: var(--text-color);
-            border-radius: 8px; font-size: 1em; font-family: var(--font-family);
-        }
-
-        .admin-button {
-            padding: 12px 20px; border: none; background: var(--primary-gradient);
-            color: #1a1c1e; border-radius: 8px; cursor: pointer;
-            font-size: 1em; font-weight: 600; transition: box-shadow 0.2s ease;
-        }
-        .admin-button:hover { box-shadow: 0 0 15px var(--primary-color); }
-        .admin-button i { margin-right: 8px; }
-
-        /* --- LOADER --- */
-        #loader-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7); display: flex;
-            justify-content: center; align-items: center; z-index: 1000;
-        }
-        .loader-spinner {
-            border: 5px solid var(--border-color);
-            border-top: 5px solid var(--primary-color);
-            border-radius: 50%;
-            width: 50px; height: 50px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* --- OKNO MODALNE DO OBSTAWIANIA --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center;
-            align-items: center; z-index: 999;
-            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-        }
+        .card-admin-actions { position: absolute; top: 10px; right: 10px; display: none; gap: 8px; }
+        .admin-mode .card-admin-actions { display: flex; }
+        .admin-card-btn { background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-muted); width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s ease; }
+        .admin-card-btn:hover { color: var(--text-color); background: rgba(0,0,0,0.5); }
+        .admin-card-btn.delete:hover { color: var(--error-color); }
+        .admin-card-btn.reset:hover { color: var(--secondary-color); }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center; z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
         .modal-overlay.visible { opacity: 1; pointer-events: all; }
-
-        .modal {
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            padding: 30px; border-radius: 15px;
-            border: 1px solid var(--border-color);
-            width: 90%; max-width: 400px; text-align: center;
-            transform: scale(0.9); transition: transform 0.3s ease;
-        }
+        .modal { background: var(--card-bg); backdrop-filter: blur(15px); padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); width: 90%; max-width: 400px; text-align: center; transform: scale(0.9); transition: transform 0.3s ease; }
         .modal-overlay.visible .modal { transform: scale(1); }
         .modal h3 { font-size: 1.5em; margin-bottom: 10px; }
         .modal p { color: var(--text-muted); margin-bottom: 20px; }
-        .modal-input {
-            width: 100%; padding: 15px; font-size: 1.2em; text-align: center;
-            background: rgba(0,0,0,0.3); border: 1px solid var(--border-color);
-            color: var(--text-color); border-radius: 8px; margin-bottom: 20px;
-            font-family: var(--font-family);
-        }
+        .modal-input { width: 100%; padding: 15px; font-size: 1.2em; text-align: center; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 8px; margin-bottom: 20px; font-family: var(--font-family); }
         .modal-actions { display: flex; gap: 15px; }
-
-        /* --- POWIADOMIENIA "TOAST" --- */
-        #toast-container {
-            position: fixed; bottom: 20px; right: 20px;
-            display: flex; flex-direction: column; gap: 10px;
-            z-index: 1001;
-        }
-        .toast {
-            padding: 15px 25px; border-radius: 8px;
-            color: white; font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            animation: toast-in 0.3s ease, toast-out 0.3s ease 3.7s forwards;
-        }
+        
+        #loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .loader-spinner { border: 5px solid var(--border-color); border-top: 5px solid var(--primary-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        #toast-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1001; }
+        .toast { padding: 15px 25px; border-radius: 8px; color: white; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.3); animation: toast-in 0.3s ease, toast-out 0.3s ease 3.7s forwards; }
         .toast.success { background: var(--success-color); }
         .toast.error { background: var(--error-color); }
         @keyframes toast-in { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
@@ -252,288 +114,343 @@
     </style>
 </head>
 <body>
-
     <header>
-        <h1>Egzaminator PRO</h1>
-        <p>Obstawiaj wyniki egzaminów w wielkim stylu.</p>
+        <div class="user-profile">
+            <div class="user-info"><i class="fas fa-user-circle"></i><span id="user-nickname">Gracz</span></div>
+            <div class="wallet-display"><i class="fas fa-wallet"></i><span id="wallet-balance">...</span> PLN</div>
+        </div>
+        <h1>Egzaminator</h1>
     </header>
 
     <main class="container">
+        <section class="featured-bets" id="featured-bets">
+             <h2>Top Zakłady</h2>
+             <div class="featured-grid" id="featured-grid"></div>
+        </section>
+
+        <div id="add-person-panel">
+            <h2><i class="fas fa-user-plus"></i> Dodaj nowego zawodnika</h2>
+            <div class="add-person-form">
+                <input type="text" id="new-person-name" class="add-person-input" placeholder="Imię i nazwisko">
+                <button id="add-person-button" class="add-person-button" data-action="addPerson"><i class="fas fa-plus"></i>Dodaj</button>
+            </div>
+        </div>
+
         <div id="betting-list" class="betting-list"></div>
     </main>
-
-    <!-- LOADER -->
-    <div id="loader-overlay">
-        <div class="loader-spinner"></div>
-    </div>
     
-    <!-- PANEL ADMINA -->
-    <div id="admin-panel">
-        <h2><i class="fas fa-user-shield"></i> Panel Administratora</h2>
-        <div class="admin-form">
-            <input type="text" id="new-person-name" class="admin-input" placeholder="Imię i nazwisko">
-            <button id="add-person-button" class="admin-button"><i class="fas fa-plus"></i>Dodaj</button>
+    <div id="loader-overlay"><div class="loader-spinner"></div></div>
+    <div id="user-modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <h3>Witaj w Egzaminatorze!</h3><p>Podaj swój pseudonim, aby założyć portfel.</p>
+            <input type="text" id="nickname-input" class="modal-input" placeholder="Twój nick" maxlength="20">
+            <div class="modal-actions"><button id="confirm-nickname-btn" class="bet-button yes" style="width: 100%;">Zaczynajmy!</button></div>
         </div>
     </div>
-
-    <!-- OKNO MODALNE DO OBSTAWIANIA -->
     <div id="bet-modal-overlay" class="modal-overlay">
         <div class="modal">
-            <h3 id="modal-title">Obstaw zakład</h3>
-            <p id="modal-subtitle">Wpisz kwotę, którą chcesz postawić.</p>
+            <h3 id="modal-title">Obstaw zakład</h3><p id="modal-subtitle"></p><p id="modal-wallet-info"></p>
             <input type="number" id="modal-bet-amount" class="modal-input" placeholder="0" min="1">
             <div class="modal-actions">
-                <button id="modal-cancel" class="bet-button no" style="flex-grow: 0.5;">Anuluj</button>
-                <button id="modal-confirm" class="bet-button yes">Zatwierdź</button>
+                <button class="bet-button no" style="flex-grow: 0.5;" data-action="closeModal">Anuluj</button>
+                <button class="bet-button yes" data-action="confirmBet">Zatwierdź</button>
             </div>
         </div>
     </div>
-
-    <!-- KONTENER NA POWIADOMIENIA -->
     <div id="toast-container"></div>
 
-
     <script>
-        // --- KONFIGURACJA (UZUPEŁNIJ!) ---
-        const config = {
+        const CONFIG = {
             API_URL: 'https://api.jsonbin.io/v3/b/684726828a456b7966ab6bc7',
             API_KEY: '$2a$10$T3nkKRACm80x5BL9/RR/D.btKlIEXaG6NDod8aDskPkob2OuszNrO', 
-            ADMIN_KEY: 'ronim'
+            ADMIN_KEY: 'ronim',
+            INITIAL_WALLET_BALANCE: 1000,
+            LOCAL_STORAGE_KEY: 'egzaminator_enterprise_profile',
+            BET_RANGES: {
+                'range_0_30':   { label: '0-30%',   color: '#ff5252' },
+                'range_31_50':  { label: '31-50%',  color: '#ff793f' },
+                'range_51_70':  { label: '51-70%',  color: '#ffc82c' },
+                'range_71_90':  { label: '71-90%',  color: '#34d399' },
+                'range_91_100': { label: '91-100%', color: '#00e0a0' },
+            }
         };
         
-        // --- STAN APLIKACJI ---
         let state = { people: [] };
-        let currentBet = { personId: null, outcome: null }; // Przechowuje info dla modala
-
-        // --- GŁÓWNE ELEMENTY DOM ---
-        const bettingList = document.getElementById('betting-list');
-        const loaderOverlay = document.getElementById('loader-overlay');
-        const adminPanel = document.getElementById('admin-panel');
-        const modalOverlay = document.getElementById('bet-modal-overlay');
-        const toastContainer = document.getElementById('toast-container');
-
-        // --- FUNKCJE POMOCNICZE ---
-        const showLoader = () => loaderOverlay.style.display = 'flex';
-        const hideLoader = () => loaderOverlay.style.display = 'none';
-
-        /**
-         * Pokazuje powiadomienie "toast"
-         */
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-times-circle'}"></i> ${message}`;
-            toastContainer.appendChild(toast);
-            setTimeout(() => toast.remove(), 4000);
-        }
-
-        /**
-         * Pobiera dane z JSONBin
-         */
-        async function fetchData() {
-            if (!config.API_URL.includes('https://api.jsonbin.io') || !config.API_KEY.includes('$2a$10')) {
-                hideLoader();
-                bettingList.innerHTML = '<p style="text-align:center; color: var(--error-color); font-size: 1.2em;">Aplikacja nie jest skonfigurowana! Uzupełnij API_URL i API_KEY w kodzie.</p>';
-                return;
-            }
-
-            try {
-                const response = await fetch(config.API_URL + '/latest', {
-                    headers: { 'X-Master-Key': config.API_KEY }
-                });
-                if (!response.ok) throw new Error(`Błąd sieci: ${response.status}`);
-                const data = await response.json();
-                state = data.record || { people: [] };
-            } catch (error) {
-                console.error('Nie udało się pobrać danych:', error);
-                showToast('Błąd pobierania danych!', 'error');
-            } finally {
-                hideLoader();
-                render();
-            }
-        }
-
-        /**
-         * Zapisuje dane w JSONBin
-         */
-        async function saveData() {
-            showLoader();
-            try {
-                await fetch(config.API_URL, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': config.API_KEY
-                    },
-                    body: JSON.stringify(state)
-                });
-            } catch (error) {
-                console.error('Nie udało się zapisać danych:', error);
-                showToast('Błąd zapisu danych!', 'error');
-            } finally {
-                hideLoader();
-            }
-        }
+        let user = { id: null, nickname: null, wallet: 0 };
+        let currentBet = { personId: null, rangeId: null };
         
-        /**
-         * Oblicza kursy
-         */
-        function calculateOdds(person) {
-            const totalYes = person.bets.yes || 1;
-            const totalNo = person.bets.no || 1;
-            const totalPool = totalYes + totalNo;
-            const margin = 0.90;
-
-            const formatOdd = (odd) => Math.max(1.05, odd).toFixed(2);
-
-            return {
-                yes: formatOdd((totalPool / totalYes) * margin),
-                no: formatOdd((totalPool / totalNo) * margin)
-            };
-        }
-
-        /**
-         * Renderuje listę osób
-         */
-        function render() {
-            bettingList.innerHTML = '';
-            if (state.people.length === 0) {
-                bettingList.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Admin nie dodał jeszcze żadnych osób do obstawiania.</p>';
-                return;
-            }
-
-            state.people.forEach((person, index) => {
-                const odds = calculateOdds(person);
-                const totalPersonPool = (person.bets.yes || 0) + (person.bets.no || 0);
-
-                const card = document.createElement('div');
-                card.className = 'person-card';
-                card.style.animationDelay = `${index * 0.1}s`;
-                card.innerHTML = `
-                    <div class="card-header"><div class="person-name">${person.name}</div></div>
-                    <div class="card-body">
-                        <div class="odds-container">
-                            <div>
-                                <div class="odd-label">ZDA</div>
-                                <div class="odd-value">${odds.yes}</div>
-                            </div>
-                            <div>
-                                <div class="odd-label">NIE ZDA</div>
-                                <div class="odd-value">${odds.no}</div>
-                            </div>
-                        </div>
-                        <div class="bet-buttons">
-                            <button class="bet-button yes" data-id="${person.id}" data-outcome="yes">Obstaw "ZDA"</button>
-                            <button class="bet-button no" data-id="${person.id}" data-outcome="no">Obstaw "NIE ZDA"</button>
-                        </div>
-                        <div class="total-pool">Łączna pula: ${totalPersonPool} PLN</div>
-                    </div>`;
-                bettingList.appendChild(card);
-            });
-        }
+        const $ = selector => document.querySelector(selector);
         
-        /**
-         * Pokazuje okno modalne do obstawiania
-         */
-        function showBetModal(personId, outcome) {
-            const person = state.people.find(p => p.id === personId);
-            if (!person) return;
-            
-            currentBet = { personId, outcome };
-
-            document.getElementById('modal-title').innerText = `Obstawiasz: ${person.name}`;
-            document.getElementById('modal-subtitle').innerText = `Wynik: ${outcome === 'yes' ? 'ZDA' : 'NIE ZDA'}`;
-            document.getElementById('modal-bet-amount').value = '';
-            modalOverlay.classList.add('visible');
-            document.getElementById('modal-bet-amount').focus();
-        }
-
-        /**
-         * Ukrywa okno modalne
-         */
-        function hideBetModal() {
-            modalOverlay.classList.remove('visible');
-        }
-
-        /**
-         * Przetwarza zakład po potwierdzeniu w modalu
-         */
-        async function confirmBet() {
-            const { personId, outcome } = currentBet;
-            const amountInput = document.getElementById('modal-bet-amount');
-            const amount = parseInt(amountInput.value, 10);
-
-            if (isNaN(amount) || amount <= 0) {
-                showToast("Podaj poprawną, dodatnią kwotę.", 'error');
-                return;
-            }
-            
-            const person = state.people.find(p => p.id === personId);
-            if (person) {
-                person.bets[outcome] += amount;
-                hideBetModal();
-                await saveData();
-                showToast(`Postawiono ${amount} PLN!`, 'success');
-                render(); // Przerenderuj, aby zaktualizować kursy
-            }
-        }
-        
-        /**
-         * Dodaje nową osobę (funkcja admina)
-         */
-        async function addPerson() {
-            const nameInput = document.getElementById('new-person-name');
-            const name = nameInput.value.trim();
-            if (!name) {
-                showToast("Podaj imię i nazwisko.", 'error');
-                return;
-            }
-            state.people.push({
-                id: Date.now(),
-                name: name,
-                bets: { yes: 0, no: 0 }
-            });
-            await saveData();
-            showToast(`Dodano "${name}" do listy!`, 'success');
-            render();
-            nameInput.value = '';
-        }
-
-        /**
-         * Sprawdza dostęp admina
-         */
-        function checkAdminAccess() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('admin') === config.ADMIN_KEY) {
-                adminPanel.style.display = 'block';
-            }
-        }
-
-        // --- INICJALIZACJA I NASŁUCHIWANIE ZDARZEŃ ---
-        document.addEventListener('DOMContentLoaded', () => {
-            checkAdminAccess();
-            fetchData();
-            
-            // Kliknięcia na przyciski obstawiania
-            bettingList.addEventListener('click', (e) => {
-                if (e.target.matches('.bet-button')) {
-                    const personId = parseInt(e.target.dataset.id, 10);
-                    const outcome = e.target.dataset.outcome;
-                    showBetModal(personId, outcome);
+        // --- SYSTEM UŻYTKOWNIKA ---
+        const userSystem = {
+            init() {
+                const savedUser = localStorage.getItem(CONFIG.LOCAL_STORAGE_KEY);
+                if (savedUser) {
+                    user = JSON.parse(savedUser);
+                    this.updateDisplay();
+                } else {
+                    $('#user-modal-overlay').classList.add('visible');
                 }
-            });
+            },
+            create() {
+                const nickname = $('#nickname-input').value.trim();
+                if (!nickname) return toast.show('Podaj pseudonim!', 'error');
+                user = {
+                    id: `user_${Date.now()}`, nickname, wallet: CONFIG.INITIAL_WALLET_BALANCE
+                };
+                localStorage.setItem(CONFIG.LOCAL_STORAGE_KEY, JSON.stringify(user));
+                $('#user-modal-overlay').classList.remove('visible');
+                this.updateDisplay();
+                toast.show(`Witaj, ${nickname}! Zaczynamy z ${user.wallet} PLN.`, 'success');
+            },
+            updateDisplay() {
+                $('#user-nickname').textContent = user.nickname;
+                $('#wallet-balance').textContent = user.wallet;
+            },
+            updateWallet(amount) {
+                user.wallet += amount;
+                localStorage.setItem(CONFIG.LOCAL_STORAGE_KEY, JSON.stringify(user));
+                this.updateDisplay();
+            }
+        };
 
-            // Akcje w panelu admina
-            document.getElementById('add-person-button').addEventListener('click', addPerson);
-            document.getElementById('new-person-name').addEventListener('keyup', (e) => {
-                if (e.key === 'Enter') addPerson();
-            });
+        // --- OBSŁUGA DANYCH (API) ---
+        const dataHandler = {
+            async fetch() {
+                ui.showLoader();
+                try {
+                    const res = await fetch(`${CONFIG.API_URL}/latest`, { headers: { 'X-Master-Key': CONFIG.API_KEY } });
+                    if (!res.ok) throw new Error(`Błąd sieci: ${res.status}`);
+                    state = (await res.json()).record || { people: [] };
+                    renderer.renderAll();
+                } catch (err) {
+                    console.error('Błąd pobierania danych:', err);
+                    toast.show('Błąd pobierania danych!', 'error');
+                } finally {
+                    ui.hideLoader();
+                }
+            },
+            async save() {
+                ui.showLoader();
+                try {
+                    await fetch(CONFIG.API_URL, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json', 'X-Master-Key': CONFIG.API_KEY },
+                        body: JSON.stringify(state)
+                    });
+                } catch (err) {
+                    console.error('Błąd zapisu danych:', err);
+                    toast.show('Błąd zapisu danych!', 'error');
+                } finally {
+                    ui.hideLoader();
+                }
+            }
+        };
 
-            // Akcje w oknie modalnym
-            document.getElementById('modal-confirm').addEventListener('click', confirmBet);
-            document.getElementById('modal-cancel').addEventListener('click', hideBetModal);
-            modalOverlay.addEventListener('click', (e) => {
-                if (e.target === modalOverlay) hideBetModal();
+        // --- LOGIKA BIZNESOWA ---
+        const logic = {
+            calculateOdds(person) {
+                const totalPool = Object.values(person.bets).reduce((sum, v) => sum + v, 0) || 1;
+                const margin = 0.90;
+                
+                const odds = Object.keys(CONFIG.BET_RANGES).map(rangeId => {
+                    const rangePool = person.bets[rangeId] || 1;
+                    const oddValue = Math.max(1.05, (totalPool / rangePool) * margin).toFixed(2);
+                    return { rangeId, odd: oddValue };
+                });
+                return { odds, totalPool };
+            }
+        };
+
+        // --- RENDEROWANIE INTERFEJSU ---
+        const renderer = {
+            renderAll() {
+                this.renderFeaturedBets();
+                this.renderBettingList();
+            },
+            renderFeaturedBets() {
+                const grid = $('#featured-grid');
+                if (state.people.length < 1) return $('#featured-bets').style.display = 'none';
+                $('#featured-bets').style.display = 'block';
+
+                const allOdds = state.people.flatMap(p => 
+                    logic.calculateOdds(p).odds.map(o => ({...o, person: p}))
+                );
+                
+                const minOddBet = allOdds.reduce((min, o) => parseFloat(o.odd) < parseFloat(min.odd) ? o : min, allOdds[0]);
+                const maxOddBet = allOdds.reduce((max, o) => parseFloat(o.odd) > parseFloat(max.odd) ? o : max, allOdds[0]);
+                
+                const peopleWithPool = state.people.map(p => ({...p, totalPool: logic.calculateOdds(p).totalPool}));
+                const hotBet = peopleWithPool.reduce((max, p) => p.totalPool > max.totalPool ? p : max, peopleWithPool[0]);
+
+                grid.innerHTML = `
+                    <div class="featured-card sure-bet">
+                        <div class="featured-title">Najniższy Kurs (Pewniak)</div>
+                        <div class="featured-person">${minOddBet.person.name}</div>
+                        <div class="featured-details">${CONFIG.BET_RANGES[minOddBet.rangeId].label} @ <strong>${minOddBet.odd}</strong></div>
+                    </div>
+                    <div class="featured-card risky-bet">
+                        <div class="featured-title">Najwyższy Kurs (Czarny Koń)</div>
+                        <div class="featured-person">${maxOddBet.person.name}</div>
+                        <div class="featured-details">${CONFIG.BET_RANGES[maxOddBet.rangeId].label} @ <strong>${maxOddBet.odd}</strong></div>
+                    </div>
+                    <div class="featured-card hot-bet">
+                        <div class="featured-title">Największa Pula</div>
+                        <div class="featured-person">${hotBet.name}</div>
+                        <div class="featured-details">Łączna pula: <strong>${hotBet.totalPool} PLN</strong></div>
+                    </div>`;
+            },
+            renderBettingList() {
+                $('#betting-list').innerHTML = state.people.map((p, i) => this.createCardHTML(p, i)).join('');
+            },
+            createCardHTML(person, index = 0) {
+                const { odds, totalPool } = logic.calculateOdds(person);
+                const progressSegments = Object.keys(CONFIG.BET_RANGES).map(rangeId => {
+                    const percentage = totalPool > 1 ? (person.bets[rangeId] / totalPool) * 100 : 100 / Object.keys(CONFIG.BET_RANGES).length;
+                    return `<div class="progress-segment" style="width: ${percentage}%; background-color: ${CONFIG.BET_RANGES[rangeId].color};"></div>`;
+                }).join('');
+
+                const tableRows = odds.map(({ rangeId, odd }) => `
+                    <tr>
+                        <td class="bet-range-label">${CONFIG.BET_RANGES[rangeId].label}</td>
+                        <td class="bet-odd-value" data-range-id="${rangeId}">${odd}</td>
+                        <td class="bet-button-cell"><button class="bet-button yes" data-action="showBetModal" data-id="${person.id}" data-range-id="${rangeId}">Obstaw</button></td>
+                    </tr>`).join('');
+                
+                return `
+                    <div class="person-card" data-person-id="${person.id}" style="animation-delay: ${index * 0.07}s">
+                        <div class="card-admin-actions">
+                            <button class="admin-card-btn reset" data-action="reset" data-id="${person.id}" title="Resetuj"><i class="fas fa-sync-alt"></i></button>
+                            <button class="admin-card-btn delete" data-action="delete" data-id="${person.id}" title="Usuń"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                        <div class="card-header"><div class="person-name">${person.name}</div></div>
+                        <div class="card-body">
+                            <div class="bet-progress-bar" data-progress-bar-id="${person.id}">${progressSegments}</div>
+                            <table class="bet-table">
+                                <thead><tr><th>Zakres %</th><th>Kurs</th><th>Akcja</th></tr></thead>
+                                <tbody>${tableRows}</tbody>
+                            </table>
+                            <div class="total-pool" data-total-pool-id="${person.id}">Łączna pula: ${totalPool} PLN</div>
+                        </div>
+                    </div>`;
+            },
+            updateCard(personId) {
+                const person = state.people.find(p => p.id === personId);
+                const card = $(`[data-person-id="${personId}"]`);
+                if (!person || !card) return;
+
+                const { odds, totalPool } = logic.calculateOdds(person);
+                odds.forEach(({ rangeId, odd }) => {
+                    card.querySelector(`[data-range-id="${rangeId}"]`).textContent = odd;
+                });
+                
+                const progressSegmentsHTML = Object.keys(CONFIG.BET_RANGES).map(rangeId => {
+                    const percentage = totalPool > 1 ? (person.bets[rangeId] / totalPool) * 100 : 100 / Object.keys(CONFIG.BET_RANGES).length;
+                    return `<div class="progress-segment" style="width: ${percentage}%; background-color: ${CONFIG.BET_RANGES[rangeId].color};"></div>`;
+                }).join('');
+                card.querySelector(`[data-progress-bar-id="${personId}"]`).innerHTML = progressSegmentsHTML;
+
+                card.querySelector(`[data-total-pool-id="${personId}"]`).textContent = `Łączna pula: ${totalPool} PLN`;
+                this.renderFeaturedBets();
+            }
+        };
+
+        // --- INTERFEJS UŻYTKOWNIKA (MODALE, TOASTY) ---
+        const ui = {
+            showLoader: () => $('#loader-overlay').style.display = 'flex',
+            hideLoader: () => $('#loader-overlay').style.display = 'none',
+            showBetModal(target) {
+                const { id, rangeId } = target.dataset;
+                const person = state.people.find(p => p.id === parseInt(id));
+                currentBet = { personId: parseInt(id), rangeId };
+                
+                $('#modal-title').innerText = `Obstawiasz: ${person.name}`;
+                $('#modal-subtitle').innerText = `Wynik w zakresie: ${CONFIG.BET_RANGES[rangeId].label}`;
+                $('#modal-wallet-info').innerText = `Dostępne środki: ${user.wallet} PLN`;
+                $('#modal-bet-amount').value = '';
+                $('#bet-modal-overlay').classList.add('visible');
+                $('#modal-bet-amount').focus();
+            },
+            closeModal: () => $('#bet-modal-overlay').classList.remove('visible')
+        };
+        const toast = {
+            show(message, type = 'success') {
+                const el = document.createElement('div');
+                el.className = `toast ${type}`;
+                el.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-times-circle'}"></i> ${message}`;
+                $('#toast-container').appendChild(el);
+                setTimeout(() => el.remove(), 4000);
+            }
+        };
+
+        // --- AKCJE UŻYTKOWNIKA I ADMINA ---
+        const actions = {
+            async confirmBet() {
+                const amount = parseInt($('#modal-bet-amount').value, 10);
+                if (isNaN(amount) || amount <= 0) return toast.show("Podaj poprawną kwotę.", 'error');
+                if (amount > user.wallet) return toast.show("Nie masz wystarczających środków!", 'error');
+                
+                const person = state.people.find(p => p.id === currentBet.personId);
+                if (person) {
+                    person.bets[currentBet.rangeId] += amount;
+                    userSystem.updateWallet(-amount);
+                    ui.closeModal();
+                    await dataHandler.save();
+                    toast.show(`Postawiono ${amount} PLN!`, 'success');
+                    renderer.updateCard(currentBet.personId);
+                }
+            },
+            async addPerson() {
+                const name = $('#new-person-name').value.trim();
+                if (!name) return toast.show("Podaj imię i nazwisko.", 'error');
+                
+                const newPerson = { id: Date.now(), name, bets: {} };
+                Object.keys(CONFIG.BET_RANGES).forEach(key => newPerson.bets[key] = 0);
+                
+                state.people.push(newPerson);
+                await dataHandler.save();
+                toast.show(`Dodano "${name}"!`, 'success');
+                renderer.renderAll();
+                $('#new-person-name').value = '';
+            },
+            async delete(target) {
+                const personId = parseInt(target.dataset.id);
+                const person = state.people.find(p => p.id === personId);
+                if (confirm(`Czy na pewno chcesz usunąć ${person.name}?`)) {
+                    state.people = state.people.filter(p => p.id !== personId);
+                    await dataHandler.save();
+                    toast.show(`${person.name} został usunięty.`, 'success');
+                    renderer.renderAll();
+                }
+            },
+            async reset(target) {
+                const personId = parseInt(target.dataset.id);
+                const person = state.people.find(p => p.id === personId);
+                if (confirm(`Czy chcesz zresetować zakłady dla ${person.name}?`)) {
+                    Object.keys(person.bets).forEach(key => person.bets[key] = 0);
+                    await dataHandler.save();
+                    toast.show(`Zakłady dla ${person.name} zostały zresetowane.`, 'success');
+                    renderer.updateCard(personId);
+                }
+            }
+        };
+
+        // --- INICJALIZACJA APLIKACJI ---
+        document.addEventListener('DOMContentLoaded', () => {
+            userSystem.init();
+            if (new URLSearchParams(window.location.search).get('admin') === CONFIG.ADMIN_KEY) {
+                document.body.classList.add('admin-mode');
+            }
+            dataHandler.fetch();
+
+            $('#confirm-nickname-btn').addEventListener('click', () => userSystem.create());
+            
+            document.body.addEventListener('click', (e) => {
+                const target = e.target.closest('[data-action]');
+                const action = target?.dataset.action;
+                if (action && (actions[action] || ui[action])) {
+                    (actions[action] || ui[action])(target);
+                }
             });
         });
     </script>
