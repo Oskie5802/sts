@@ -130,7 +130,7 @@
             API_KEY: '$2a$10$T3nkKRACm80x5BL9/RR/D.btKlIEXaG6NDod8aDskPkob2OuszNrO',
             ADMIN_KEY: 'ronim',
             INITIAL_WALLET_BALANCE: 1000,
-            LOCAL_STORAGE_KEY: 'ronim_sts_final_profile',
+            LOCAL_STORAGE_KEY: 'ronim_sts_final_profile_v2',
             PASSING_THRESHOLD: 75,
             BASE_STAKE: 50, // Wirtualna stawka "domu" dla stabilizacji kursów
             BET_RANGES: {
@@ -224,15 +224,7 @@
             },
             sanitizeData() {
                 if (!state.people || !Array.isArray(state.people)) state.people = [];
-                state.people.forEach(person => {
-                    if (!person.bets) person.bets = {};
-                    const allBetKeys = ['pass', 'fail', ...Object.keys(CONFIG.BET_RANGES)];
-                    allBetKeys.forEach(key => {
-                        if (person.bets[key] === undefined || person.bets[key] === null) {
-                            person.bets[key] = 0;
-                        }
-                    });
-                });
+                state.people.forEach(person => actions.initializeBetStructure(person));
             }
         };
 
@@ -242,27 +234,26 @@
                 const formatOdd = val => Math.max(1.05, val).toFixed(2);
                 const bets = person.bets;
                 const baseStake = CONFIG.BASE_STAKE;
-
-                let totalMainPool = (bets.pass || 0) + (bets.fail || 0) + (2 * baseStake);
-                let passProbability = ((bets.pass || 0) + baseStake) / totalMainPool;
-                let failProbability = ((bets.fail || 0) + baseStake) / totalMainPool;
-
-                let totalDetailedPool = Object.values(bets).reduce((sum, val, index) => index > 1 ? sum + val : sum, 0) + (Object.keys(CONFIG.BET_RANGES).length * baseStake);
-
+                
+                let totalDetailedPool = 0;
                 Object.keys(CONFIG.BET_RANGES).forEach(rangeId => {
-                    const rangePool = bets[rangeId] || 0;
-                    const rangeProb = (rangePool + baseStake) / totalDetailedPool;
-                    if (parseInt(rangeId.split('_')[1]) >= CONFIG.PASSING_THRESHOLD) {
-                        passProbability += rangeProb * 0.5; // Zakłady szczegółowe wpływają na główne, ale słabiej
-                    } else {
-                        failProbability += rangeProb * 0.5;
-                    }
+                    totalDetailedPool += (bets[rangeId] || 0) + baseStake;
                 });
 
-                const normFactor = 1 / (passProbability + failProbability);
-                passProbability *= normFactor;
-                failProbability *= normFactor;
+                let passProbability = 0;
+                let failProbability = 0;
 
+                Object.keys(CONFIG.BET_RANGES).forEach(rangeId => {
+                    const prob = ((bets[rangeId] || 0) + baseStake) / totalDetailedPool;
+                    const rangeThreshold = parseInt(rangeId.split('_')[0], 10) > 0 ? parseInt(rangeId.split('_')[1], 10) : CONFIG.PASSING_THRESHOLD -1;
+
+                    if (rangeThreshold >= CONFIG.PASSING_THRESHOLD) {
+                        passProbability += prob;
+                    } else {
+                        failProbability += prob;
+                    }
+                });
+                
                 const mainOdds = {
                     pass: formatOdd((1 / passProbability) * margin),
                     fail: formatOdd((1 / failProbability) * margin)
@@ -340,9 +331,8 @@
             async addPerson() {
                 const name = $('#new-person-name').value.trim();
                 if (!name) return toast.show("Podaj imię i nazwisko.", 'error');
-                const newPerson = { id: Date.now(), name, bets: {} };
-                const allBetKeys = ['pass', 'fail', ...Object.keys(CONFIG.BET_RANGES)];
-                allBetKeys.forEach(key => newPerson.bets[key] = 0);
+                let newPerson = { id: Date.now(), name };
+                newPerson = this.initializeBetStructure(newPerson);
                 state.people.push(newPerson);
                 await api.save();
                 toast.show(`Dodano "${name}"!`, 'success');
@@ -350,11 +340,17 @@
                 $('#new-person-name').value = '';
             },
             async delete(target) { const personId = parseInt(target.dataset.id); const person = state.people.find(p => p.id === personId); if (confirm(`Czy na pewno chcesz usunąć ${person.name}?`)) { state.people = state.people.filter(p => p.id !== personId); await api.save(); toast.show(`${person.name} usunięty.`, 'success'); renderer.renderAll(); } },
-            async reset(target) { const personId = parseInt(target.dataset.id); const person = state.people.find(p => p.id === personId); if (confirm(`Czy chcesz zresetować zakłady dla ${person.name}?`)) { Object.keys(person.bets).forEach(key => person.bets[key] = 0); await api.save(); toast.show(`Zakłady dla ${person.name} zresetowane.`, 'success'); renderer.updateCardContent($(`[data-person-id="${personId}"]`), person); renderer.renderFeaturedBets(); } },
+            async reset(target) { const personId = parseInt(target.dataset.id); const person = state.people.find(p => p.id === personId); if (confirm(`Czy chcesz zresetować zakłady dla ${person.name}?`)) { person = this.initializeBetStructure(person); await api.save(); toast.show(`Zakłady dla ${person.name} zresetowane.`, 'success'); renderer.updateCardContent($(`[data-person-id="${personId}"]`), person); renderer.renderFeaturedBets(); } },
             setBetAmount(target) {
                 const input = $('#modal-bet-amount');
                 const amount = target.dataset.amount;
                 if (amount === 'max') { input.value = user.wallet; } else { const currentVal = parseInt(input.value) || 0; input.value = Math.min(user.wallet, currentVal + parseInt(amount)); }
+            },
+            initializeBetStructure(person) {
+                if (!person.bets) person.bets = {};
+                const allBetKeys = ['pass', 'fail', ...Object.keys(CONFIG.BET_RANGES)];
+                allBetKeys.forEach(key => { person.bets[key] = 0; });
+                return person;
             }
         };
 
