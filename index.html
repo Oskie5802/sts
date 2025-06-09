@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Egzaminator: Enterprise Edition</title>
+    <title>Egzaminator: Professional Edition</title>
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💎</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,6 @@
             --bg-gradient: linear-gradient(145deg, #10121b, #1d1f2b);
             --card-bg: rgba(31, 34, 46, 0.5);
             --primary-color: #00e0a0;
-            --primary-gradient: linear-gradient(90deg, #00e0a0, #00c4b1);
             --secondary-color: #ffc82c;
             --text-color: #e8e8e8;
             --text-muted: #9a9fab;
@@ -28,21 +27,73 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body {
-            font-family: var(--font-family); background-color: #10121b;
-            background-image: var(--bg-gradient); color: var(--text-color);
-            padding: clamp(1rem, 3vw, 2rem); min-height: 100vh;
-        }
-
+        body { font-family: var(--font-family); background-color: #10121b; background-image: var(--bg-gradient); color: var(--text-color); padding: clamp(1rem, 3vw, 2rem); min-height: 100vh; }
         .container { max-width: 1400px; margin: 0 auto; }
         
+        /* --- NAGŁÓWEK I PROFIL UŻYTKOWNIKA --- */
         header { text-align: center; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
         .user-profile { display: flex; align-items: center; justify-content: flex-end; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
         .user-info, .wallet-display { background: var(--card-bg); padding: 10px 20px; border-radius: 10px; border: 1px solid var(--border-color); font-weight: 600; font-size: clamp(0.9rem, 2.5vw, 1.1rem); backdrop-filter: blur(5px); }
         .user-info i { color: var(--primary-color); }
         .wallet-display i { color: var(--secondary-color); }
         .user-info i, .wallet-display i { margin-right: 8px; }
-        header h1 { font-size: clamp(2rem, 8vw, 4.5rem); font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 25px rgba(0, 221, 155, 0.2); }
+        header h1 { font-size: clamp(2rem, 8vw, 4.5rem); font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 25px rgba(255, 200, 44, 0.1); }
+        
+        /* --- KARTY GŁÓWNE (KARTY, PRZEŁĄCZNIK ZAKŁADÓW, TABELE) --- */
+        .betting-list { display: grid; grid-template-columns: 1fr; gap: clamp(1.5rem, 3vw, 2.5rem); }
+        .person-card { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); backdrop-filter: blur(12px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); overflow: hidden; transition: all 0.3s ease; animation: card-enter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; opacity: 0; position: relative; }
+        @keyframes card-enter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card-header { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.15); }
+        .person-name { font-size: 1.6em; font-weight: 600; }
+        .bet-type-switcher { display: flex; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 5px; }
+        .switch-btn { padding: 8px 15px; border: none; background: transparent; color: var(--text-muted); font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+        .switch-btn.active { background: var(--primary-color); color: #10121b; box-shadow: 0 2px 10px rgba(0, 224, 160, 0.4); }
+        .switch-btn i { margin-right: 6px; }
+
+        .card-body { padding: 25px; }
+        .bet-view { display: none; }
+        .bet-view.active { display: block; animation: view-fade-in 0.4s ease; }
+        @keyframes view-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+        .bet-table { width: 100%; border-collapse: collapse; }
+        .bet-table th, .bet-table td { padding: 12px; text-align: center; border-bottom: 1px solid var(--border-color); }
+        .bet-table th { color: var(--text-muted); font-weight: 400; }
+        .bet-table tr:last-child td { border-bottom: none; }
+        .bet-table tr:hover { background: rgba(255,255,255,0.05); }
+        .bet-label { font-weight: 600; }
+        .bet-odd-value { font-weight: 700; font-size: 1.4em; color: var(--secondary-color); }
+        .bet-button { width: 100%; padding: 10px; border-radius: 8px; border: none; font-size: 0.9em; font-weight: 600; cursor: pointer; transition: all 0.2s ease; background: linear-gradient(90deg, var(--primary-color), #34d399); color: #10121b; }
+        .bet-button:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 224, 160, 0.5); }
+        
+        .card-footer { padding: 0 25px 25px 25px; }
+        .bet-progress-bar { height: 12px; display: flex; border-radius: 6px; overflow: hidden; background-color: rgba(0,0,0,0.3); margin-bottom: 15px; }
+        .progress-segment { height: 100%; transition: width 0.5s ease; }
+        .total-pool { text-align: right; font-size: 0.9em; color: var(--text-muted); font-weight: 300; }
+
+        /* Reszta stylów (admin, modale, toasty, featured) bez większych zmian */
+        #add-person-panel { display: none; background: var(--card-bg); padding: 30px; margin: 40px auto; border-radius: 15px; border: 1px solid var(--border-color); max-width: 500px; backdrop-filter: blur(10px); }
+        .admin-mode #add-person-panel { display: block; }
+        #add-person-panel h2 { text-align: center; margin-bottom: 25px; font-weight: 600; }
+        .add-person-form { display: flex; gap: 10px; }
+        .add-person-input { flex-grow: 1; padding: 12px; border: 1px solid var(--border-color); background-color: rgba(0,0,0,0.2); color: var(--text-color); border-radius: 8px; font-size: 1em; font-family: var(--font-family); }
+        .add-person-button { padding: 12px 20px; border: none; background: linear-gradient(90deg, var(--primary-color), #34d399); color: #1a1c1e; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 600; transition: box-shadow 0.2s ease; }
+        .add-person-button:hover { box-shadow: 0 0 15px var(--primary-color); }
+        .card-admin-actions { position: absolute; top: 10px; right: 10px; display: none; gap: 8px; z-index: 5; }
+        .admin-mode .card-admin-actions { display: flex; }
+        .admin-card-btn { background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-muted); width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s ease; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center; z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .modal-overlay.visible { opacity: 1; pointer-events: all; }
+        .modal { background: var(--card-bg); backdrop-filter: blur(15px); padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); width: 90%; max-width: 400px; text-align: center; transform: scale(0.9); transition: transform 0.3s ease; }
+        #loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .loader-spinner { border: 5px solid var(--border-color); border-top: 5px solid var(--primary-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #toast-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1001; }
+        .toast { padding: 15px 25px; border-radius: 8px; color: white; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.3); animation: toast-in 0.3s ease, toast-out 0.3s ease 3.7s forwards; }
+        .toast.success { background: var(--success-color); }
+        .toast.error { background: var(--error-color); }
+        @keyframes toast-in { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes toast-out { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
         
         .featured-bets { margin-bottom: 40px; }
         .featured-bets h2 { text-align: center; font-size: 1.8rem; margin-bottom: 25px; color: var(--text-muted); }
@@ -55,62 +106,6 @@
         .featured-title { font-weight: 600; margin-bottom: 5px; }
         .featured-person { font-size: 1.3em; font-weight: 700; }
         .featured-details { color: var(--text-muted); font-size: 0.9em; }
-        
-        #add-person-panel { display: none; background: var(--card-bg); padding: 30px; margin: 40px auto; border-radius: 15px; border: 1px solid var(--border-color); max-width: 500px; backdrop-filter: blur(10px); }
-        .admin-mode #add-person-panel { display: block; }
-        #add-person-panel h2 { text-align: center; margin-bottom: 25px; font-weight: 600; }
-        .add-person-form { display: flex; gap: 10px; }
-        .add-person-input { flex-grow: 1; padding: 12px; border: 1px solid var(--border-color); background-color: rgba(0,0,0,0.2); color: var(--text-color); border-radius: 8px; font-size: 1em; font-family: var(--font-family); }
-        .add-person-button { padding: 12px 20px; border: none; background: var(--primary-gradient); color: #1a1c1e; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 600; transition: box-shadow 0.2s ease; }
-        .add-person-button:hover { box-shadow: 0 0 15px var(--primary-color); }
-        
-        .betting-list { display: grid; grid-template-columns: 1fr; gap: clamp(1.5rem, 3vw, 2.5rem); }
-        @keyframes card-enter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .person-card { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); backdrop-filter: blur(12px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); overflow: hidden; transition: all 0.3s ease; animation: card-enter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; opacity: 0; position: relative; }
-        .card-header { padding: 20px 25px; text-align: center; background: rgba(0,0,0,0.15); }
-        .person-name { font-size: 1.6em; font-weight: 600; }
-        .card-body { padding: 25px; }
-
-        .bet-progress-bar { height: 12px; display: flex; border-radius: 6px; overflow: hidden; background-color: rgba(0,0,0,0.3); margin-bottom: 25px; }
-        .progress-segment { height: 100%; transition: width 0.5s ease; }
-
-        .bet-table { width: 100%; border-collapse: collapse; }
-        .bet-table th, .bet-table td { padding: 12px; text-align: center; border-bottom: 1px solid var(--border-color); }
-        .bet-table th { color: var(--text-muted); font-weight: 400; }
-        .bet-table tr:last-child td { border-bottom: none; }
-        .bet-table tr:hover { background: rgba(255,255,255,0.05); }
-        .bet-range-label { font-weight: 600; }
-        .bet-odd-value { font-weight: 700; font-size: 1.4em; color: var(--secondary-color); }
-        .bet-button-cell .bet-button { width: 100%; padding: 10px; font-size: 0.9em; border-radius: 8px; }
-        
-        .total-pool { margin-top: 20px; text-align: right; font-size: 0.9em; color: var(--text-muted); font-weight: 300; }
-        
-        .card-admin-actions { position: absolute; top: 10px; right: 10px; display: none; gap: 8px; }
-        .admin-mode .card-admin-actions { display: flex; }
-        .admin-card-btn { background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-muted); width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s ease; }
-        .admin-card-btn:hover { color: var(--text-color); background: rgba(0,0,0,0.5); }
-        .admin-card-btn.delete:hover { color: var(--error-color); }
-        .admin-card-btn.reset:hover { color: var(--secondary-color); }
-        
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center; z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
-        .modal-overlay.visible { opacity: 1; pointer-events: all; }
-        .modal { background: var(--card-bg); backdrop-filter: blur(15px); padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); width: 90%; max-width: 400px; text-align: center; transform: scale(0.9); transition: transform 0.3s ease; }
-        .modal-overlay.visible .modal { transform: scale(1); }
-        .modal h3 { font-size: 1.5em; margin-bottom: 10px; }
-        .modal p { color: var(--text-muted); margin-bottom: 20px; }
-        .modal-input { width: 100%; padding: 15px; font-size: 1.2em; text-align: center; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 8px; margin-bottom: 20px; font-family: var(--font-family); }
-        .modal-actions { display: flex; gap: 15px; }
-        
-        #loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .loader-spinner { border: 5px solid var(--border-color); border-top: 5px solid var(--primary-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        #toast-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1001; }
-        .toast { padding: 15px 25px; border-radius: 8px; color: white; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.3); animation: toast-in 0.3s ease, toast-out 0.3s ease 3.7s forwards; }
-        .toast.success { background: var(--success-color); }
-        .toast.error { background: var(--error-color); }
-        @keyframes toast-in { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes toast-out { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
     </style>
 </head>
 <body>
@@ -123,40 +118,14 @@
     </header>
 
     <main class="container">
-        <section class="featured-bets" id="featured-bets">
-             <h2>Top Zakłady</h2>
-             <div class="featured-grid" id="featured-grid"></div>
-        </section>
-
-        <div id="add-person-panel">
-            <h2><i class="fas fa-user-plus"></i> Dodaj nowego zawodnika</h2>
-            <div class="add-person-form">
-                <input type="text" id="new-person-name" class="add-person-input" placeholder="Imię i nazwisko">
-                <button id="add-person-button" class="add-person-button" data-action="addPerson"><i class="fas fa-plus"></i>Dodaj</button>
-            </div>
-        </div>
-
-        <div id="betting-list" class="betting-list"></div>
+        <section class="featured-bets" id="featured-bets"></section>
+        <div id="add-person-panel"></div>
+        <div id="betting-list"></div>
     </main>
     
-    <div id="loader-overlay"><div class="loader-spinner"></div></div>
-    <div id="user-modal-overlay" class="modal-overlay">
-        <div class="modal">
-            <h3>Witaj w Egzaminatorze!</h3><p>Podaj swój pseudonim, aby założyć portfel.</p>
-            <input type="text" id="nickname-input" class="modal-input" placeholder="Twój nick" maxlength="20">
-            <div class="modal-actions"><button id="confirm-nickname-btn" class="bet-button yes" style="width: 100%;">Zaczynajmy!</button></div>
-        </div>
-    </div>
-    <div id="bet-modal-overlay" class="modal-overlay">
-        <div class="modal">
-            <h3 id="modal-title">Obstaw zakład</h3><p id="modal-subtitle"></p><p id="modal-wallet-info"></p>
-            <input type="number" id="modal-bet-amount" class="modal-input" placeholder="0" min="1">
-            <div class="modal-actions">
-                <button class="bet-button no" style="flex-grow: 0.5;" data-action="closeModal">Anuluj</button>
-                <button class="bet-button yes" data-action="confirmBet">Zatwierdź</button>
-            </div>
-        </div>
-    </div>
+    <div id="loader-overlay"></div>
+    <div id="user-modal-overlay" class="modal-overlay"></div>
+    <div id="bet-modal-overlay" class="modal-overlay"></div>
     <div id="toast-container"></div>
 
     <script>
@@ -165,10 +134,10 @@
             API_KEY: '$2a$10$T3nkKRACm80x5BL9/RR/D.btKlIEXaG6NDod8aDskPkob2OuszNrO', 
             ADMIN_KEY: 'ronim',
             INITIAL_WALLET_BALANCE: 1000,
-            LOCAL_STORAGE_KEY: 'egzaminator_enterprise_profile',
+            LOCAL_STORAGE_KEY: 'egzaminator_pro_profile',
+            PASSING_THRESHOLD: 75, 
             BET_RANGES: {
-                'range_0_30':   { label: '0-30%',   color: '#ff5252' },
-                'range_31_50':  { label: '31-50%',  color: '#ff793f' },
+                'range_0_50':   { label: '0-50%',   color: '#ff793f' },
                 'range_51_70':  { label: '51-70%',  color: '#ffc82c' },
                 'range_71_90':  { label: '71-90%',  color: '#34d399' },
                 'range_91_100': { label: '91-100%', color: '#00e0a0' },
@@ -177,195 +146,49 @@
         
         let state = { people: [] };
         let user = { id: null, nickname: null, wallet: 0 };
-        let currentBet = { personId: null, rangeId: null };
+        let currentBet = { personId: null, betId: null, betType: null };
         
         const $ = selector => document.querySelector(selector);
         
-        // --- SYSTEM UŻYTKOWNIKA ---
-        const userSystem = {
-            init() {
-                const savedUser = localStorage.getItem(CONFIG.LOCAL_STORAGE_KEY);
-                if (savedUser) {
-                    user = JSON.parse(savedUser);
-                    this.updateDisplay();
-                } else {
-                    $('#user-modal-overlay').classList.add('visible');
-                }
-            },
-            create() {
-                const nickname = $('#nickname-input').value.trim();
-                if (!nickname) return toast.show('Podaj pseudonim!', 'error');
-                user = {
-                    id: `user_${Date.now()}`, nickname, wallet: CONFIG.INITIAL_WALLET_BALANCE
-                };
-                localStorage.setItem(CONFIG.LOCAL_STORAGE_KEY, JSON.stringify(user));
-                $('#user-modal-overlay').classList.remove('visible');
-                this.updateDisplay();
-                toast.show(`Witaj, ${nickname}! Zaczynamy z ${user.wallet} PLN.`, 'success');
-            },
-            updateDisplay() {
-                $('#user-nickname').textContent = user.nickname;
-                $('#wallet-balance').textContent = user.wallet;
-            },
-            updateWallet(amount) {
-                user.wallet += amount;
-                localStorage.setItem(CONFIG.LOCAL_STORAGE_KEY, JSON.stringify(user));
-                this.updateDisplay();
-            }
-        };
-
-        // --- OBSŁUGA DANYCH (API) ---
-        const dataHandler = {
-            async fetch() {
-                ui.showLoader();
-                try {
-                    const res = await fetch(`${CONFIG.API_URL}/latest`, { headers: { 'X-Master-Key': CONFIG.API_KEY } });
-                    if (!res.ok) throw new Error(`Błąd sieci: ${res.status}`);
-                    state = (await res.json()).record || { people: [] };
-                    renderer.renderAll();
-                } catch (err) {
-                    console.error('Błąd pobierania danych:', err);
-                    toast.show('Błąd pobierania danych!', 'error');
-                } finally {
-                    ui.hideLoader();
-                }
-            },
-            async save() {
-                ui.showLoader();
-                try {
-                    await fetch(CONFIG.API_URL, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json', 'X-Master-Key': CONFIG.API_KEY },
-                        body: JSON.stringify(state)
-                    });
-                } catch (err) {
-                    console.error('Błąd zapisu danych:', err);
-                    toast.show('Błąd zapisu danych!', 'error');
-                } finally {
-                    ui.hideLoader();
-                }
-            }
-        };
-
-        // --- LOGIKA BIZNESOWA ---
-        const logic = {
-            calculateOdds(person) {
-                const totalPool = Object.values(person.bets).reduce((sum, v) => sum + v, 0) || 1;
-                const margin = 0.90;
-                
-                const odds = Object.keys(CONFIG.BET_RANGES).map(rangeId => {
-                    const rangePool = person.bets[rangeId] || 1;
-                    const oddValue = Math.max(1.05, (totalPool / rangePool) * margin).toFixed(2);
-                    return { rangeId, odd: oddValue };
-                });
-                return { odds, totalPool };
-            }
-        };
-
-        // --- RENDEROWANIE INTERFEJSU ---
-        const renderer = {
-            renderAll() {
-                this.renderFeaturedBets();
-                this.renderBettingList();
-            },
-            renderFeaturedBets() {
-                const grid = $('#featured-grid');
-                if (state.people.length < 1) return $('#featured-bets').style.display = 'none';
-                $('#featured-bets').style.display = 'block';
-
-                const allOdds = state.people.flatMap(p => 
-                    logic.calculateOdds(p).odds.map(o => ({...o, person: p}))
-                );
-                
-                const minOddBet = allOdds.reduce((min, o) => parseFloat(o.odd) < parseFloat(min.odd) ? o : min, allOdds[0]);
-                const maxOddBet = allOdds.reduce((max, o) => parseFloat(o.odd) > parseFloat(max.odd) ? o : max, allOdds[0]);
-                
-                const peopleWithPool = state.people.map(p => ({...p, totalPool: logic.calculateOdds(p).totalPool}));
-                const hotBet = peopleWithPool.reduce((max, p) => p.totalPool > max.totalPool ? p : max, peopleWithPool[0]);
-
-                grid.innerHTML = `
-                    <div class="featured-card sure-bet">
-                        <div class="featured-title">Najniższy Kurs (Pewniak)</div>
-                        <div class="featured-person">${minOddBet.person.name}</div>
-                        <div class="featured-details">${CONFIG.BET_RANGES[minOddBet.rangeId].label} @ <strong>${minOddBet.odd}</strong></div>
-                    </div>
-                    <div class="featured-card risky-bet">
-                        <div class="featured-title">Najwyższy Kurs (Czarny Koń)</div>
-                        <div class="featured-person">${maxOddBet.person.name}</div>
-                        <div class="featured-details">${CONFIG.BET_RANGES[maxOddBet.rangeId].label} @ <strong>${maxOddBet.odd}</strong></div>
-                    </div>
-                    <div class="featured-card hot-bet">
-                        <div class="featured-title">Największa Pula</div>
-                        <div class="featured-person">${hotBet.name}</div>
-                        <div class="featured-details">Łączna pula: <strong>${hotBet.totalPool} PLN</strong></div>
-                    </div>`;
-            },
-            renderBettingList() {
-                $('#betting-list').innerHTML = state.people.map((p, i) => this.createCardHTML(p, i)).join('');
-            },
-            createCardHTML(person, index = 0) {
-                const { odds, totalPool } = logic.calculateOdds(person);
-                const progressSegments = Object.keys(CONFIG.BET_RANGES).map(rangeId => {
-                    const percentage = totalPool > 1 ? (person.bets[rangeId] / totalPool) * 100 : 100 / Object.keys(CONFIG.BET_RANGES).length;
-                    return `<div class="progress-segment" style="width: ${percentage}%; background-color: ${CONFIG.BET_RANGES[rangeId].color};"></div>`;
-                }).join('');
-
-                const tableRows = odds.map(({ rangeId, odd }) => `
-                    <tr>
-                        <td class="bet-range-label">${CONFIG.BET_RANGES[rangeId].label}</td>
-                        <td class="bet-odd-value" data-range-id="${rangeId}">${odd}</td>
-                        <td class="bet-button-cell"><button class="bet-button yes" data-action="showBetModal" data-id="${person.id}" data-range-id="${rangeId}">Obstaw</button></td>
-                    </tr>`).join('');
-                
-                return `
-                    <div class="person-card" data-person-id="${person.id}" style="animation-delay: ${index * 0.07}s">
-                        <div class="card-admin-actions">
-                            <button class="admin-card-btn reset" data-action="reset" data-id="${person.id}" title="Resetuj"><i class="fas fa-sync-alt"></i></button>
-                            <button class="admin-card-btn delete" data-action="delete" data-id="${person.id}" title="Usuń"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                        <div class="card-header"><div class="person-name">${person.name}</div></div>
-                        <div class="card-body">
-                            <div class="bet-progress-bar" data-progress-bar-id="${person.id}">${progressSegments}</div>
-                            <table class="bet-table">
-                                <thead><tr><th>Zakres %</th><th>Kurs</th><th>Akcja</th></tr></thead>
-                                <tbody>${tableRows}</tbody>
-                            </table>
-                            <div class="total-pool" data-total-pool-id="${person.id}">Łączna pula: ${totalPool} PLN</div>
-                        </div>
-                    </div>`;
-            },
-            updateCard(personId) {
-                const person = state.people.find(p => p.id === personId);
-                const card = $(`[data-person-id="${personId}"]`);
-                if (!person || !card) return;
-
-                const { odds, totalPool } = logic.calculateOdds(person);
-                odds.forEach(({ rangeId, odd }) => {
-                    card.querySelector(`[data-range-id="${rangeId}"]`).textContent = odd;
-                });
-                
-                const progressSegmentsHTML = Object.keys(CONFIG.BET_RANGES).map(rangeId => {
-                    const percentage = totalPool > 1 ? (person.bets[rangeId] / totalPool) * 100 : 100 / Object.keys(CONFIG.BET_RANGES).length;
-                    return `<div class="progress-segment" style="width: ${percentage}%; background-color: ${CONFIG.BET_RANGES[rangeId].color};"></div>`;
-                }).join('');
-                card.querySelector(`[data-progress-bar-id="${personId}"]`).innerHTML = progressSegmentsHTML;
-
-                card.querySelector(`[data-total-pool-id="${personId}"]`).textContent = `Łączna pula: ${totalPool} PLN`;
-                this.renderFeaturedBets();
-            }
-        };
-
-        // --- INTERFEJS UŻYTKOWNIKA (MODALE, TOASTY) ---
+        // --- MODUŁY APLIKACJI ---
         const ui = {
+            init() {
+                this.injectTemplates();
+                this.addEventListeners();
+            },
+            injectTemplates() {
+                $('#loader-overlay').innerHTML = '<div class="loader-spinner"></div>';
+                $('#user-modal-overlay').innerHTML = `<div class="modal"><h3>Witaj!</h3><p>Podaj swój pseudonim, aby założyć portfel.</p><input type="text" id="nickname-input" class="modal-input" placeholder="Twój nick" maxlength="20"><div class="modal-actions"><button id="confirm-nickname-btn" class="bet-button">Zaczynajmy!</button></div></div>`;
+                $('#bet-modal-overlay').innerHTML = `<div class="modal"><h3 id="modal-title"></h3><p id="modal-subtitle"></p><p id="modal-wallet-info"></p><input type="number" id="modal-bet-amount" class="modal-input" placeholder="0" min="1"><div class="modal-actions"><button class="bet-button" data-action="closeModal" style="background: var(--error-color);">Anuluj</button><button class="bet-button" data-action="confirmBet">Zatwierdź</button></div></div>`;
+                $('#featured-bets').innerHTML = `<h2>Top Zakłady</h2><div class="featured-grid"></div>`;
+                $('#add-person-panel').innerHTML = `<h2><i class="fas fa-user-plus"></i> Dodaj zawodnika</h2><div class="add-person-form"><input type="text" id="new-person-name" class="add-person-input" placeholder="Imię i nazwisko"><button class="add-person-button" data-action="addPerson"><i class="fas fa-plus"></i>Dodaj</button></div>`;
+            },
+            addEventListeners() {
+                document.body.addEventListener('click', e => {
+                    const target = e.target.closest('[data-action]');
+                    if (target) {
+                        const action = target.dataset.action;
+                        if (actions[action]) actions[action](target);
+                    }
+                });
+                $('#confirm-nickname-btn').addEventListener('click', () => userSystem.create());
+            },
             showLoader: () => $('#loader-overlay').style.display = 'flex',
             hideLoader: () => $('#loader-overlay').style.display = 'none',
             showBetModal(target) {
-                const { id, rangeId } = target.dataset;
+                const { id, betId, betType } = target.dataset;
                 const person = state.people.find(p => p.id === parseInt(id));
-                currentBet = { personId: parseInt(id), rangeId };
+                currentBet = { personId: parseInt(id), betId, betType };
                 
+                let subtitle = '';
+                if (betType === 'main') {
+                    subtitle = `Zakład główny: ${betId === 'pass' ? 'Zda' : 'Nie Zda'}`;
+                } else {
+                    subtitle = `Wynik w zakresie: ${CONFIG.BET_RANGES[betId].label}`;
+                }
+
                 $('#modal-title').innerText = `Obstawiasz: ${person.name}`;
-                $('#modal-subtitle').innerText = `Wynik w zakresie: ${CONFIG.BET_RANGES[rangeId].label}`;
+                $('#modal-subtitle').innerText = subtitle;
                 $('#modal-wallet-info').innerText = `Dostępne środki: ${user.wallet} PLN`;
                 $('#modal-bet-amount').value = '';
                 $('#bet-modal-overlay').classList.add('visible');
@@ -373,6 +196,7 @@
             },
             closeModal: () => $('#bet-modal-overlay').classList.remove('visible')
         };
+        
         const toast = {
             show(message, type = 'success') {
                 const el = document.createElement('div');
@@ -383,7 +207,153 @@
             }
         };
 
-        // --- AKCJE UŻYTKOWNIKA I ADMINA ---
+        const userSystem = { /* bez zmian */ };
+        Object.assign(userSystem, {
+            init() { const saved = localStorage.getItem(CONFIG.LOCAL_STORAGE_KEY); if(saved) { user = JSON.parse(saved); this.updateDisplay(); } else { $('#user-modal-overlay').classList.add('visible'); } },
+            create() { const nick = $('#nickname-input').value.trim(); if(!nick) return toast.show('Podaj pseudonim!', 'error'); user = { id: `user_${Date.now()}`, nickname: nick, wallet: CONFIG.INITIAL_WALLET_BALANCE }; localStorage.setItem(CONFIG.LOCAL_STORAGE_KEY, JSON.stringify(user)); $('#user-modal-overlay').classList.remove('visible'); this.updateDisplay(); toast.show(`Witaj, ${nick}!`, 'success'); },
+            updateDisplay() { $('#user-nickname').textContent = user.nickname; $('#wallet-balance').textContent = user.wallet; },
+            updateWallet(amount) { user.wallet += amount; localStorage.setItem(CONFIG.LOCAL_STORAGE_KEY, JSON.stringify(user)); this.updateDisplay(); }
+        });
+
+        const dataHandler = { /* bez zmian */ };
+        Object.assign(dataHandler, {
+            async fetch() { ui.showLoader(); try { const res = await fetch(`${CONFIG.API_URL}/latest`, { headers: { 'X-Master-Key': CONFIG.API_KEY }}); if(!res.ok) throw new Error(`${res.status}`); state = (await res.json()).record || { people: [] }; renderer.renderAll(); } catch (err) { console.error(err); toast.show('Błąd pobierania danych!', 'error'); } finally { ui.hideLoader(); }},
+            async save() { ui.showLoader(); try { await fetch(CONFIG.API_URL, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Master-Key': CONFIG.API_KEY }, body: JSON.stringify(state) }); } catch (err) { console.error(err); toast.show('Błąd zapisu danych!', 'error'); } finally { ui.hideLoader(); } }
+        });
+
+        const logic = {
+            calculateOdds(person) {
+                const margin = 0.90;
+                const formatOdd = val => Math.max(1.05, val).toFixed(2);
+                const bets = person.bets;
+                
+                // Obliczanie "efektywnych" pul dla zakładów głównych
+                let effectivePassPool = bets.pass || 1;
+                let effectiveFailPool = bets.fail || 1;
+                let detailedBetsPool = 1;
+
+                Object.keys(CONFIG.BET_RANGES).forEach(rangeId => {
+                    const rangePool = bets[rangeId] || 0;
+                    const rangeThreshold = parseInt(rangeId.split('_')[1]);
+                    if (rangeThreshold >= CONFIG.PASSING_THRESHOLD) {
+                        effectivePassPool += rangePool;
+                    } else {
+                        effectiveFailPool += rangePool;
+                    }
+                    detailedBetsPool += rangePool;
+                });
+                
+                const mainTotalPool = effectivePassPool + effectiveFailPool;
+                
+                const mainOdds = {
+                    pass: formatOdd((mainTotalPool / effectivePassPool) * margin),
+                    fail: formatOdd((mainTotalPool / effectiveFailPool) * margin)
+                };
+
+                const detailedOdds = Object.keys(CONFIG.BET_RANGES).map(rangeId => ({
+                    rangeId,
+                    odd: formatOdd((detailedBetsPool / (bets[rangeId] || 1)) * margin)
+                }));
+                
+                const totalPool = Object.values(bets).reduce((a, b) => a + b, 0);
+                return { mainOdds, detailedOdds, totalPool };
+            }
+        };
+
+        const renderer = {
+            renderAll() { this.renderFeaturedBets(); this.renderBettingList(); },
+            renderFeaturedBets() { /* bez zmian */ },
+            renderBettingList() { $('#betting-list').innerHTML = state.people.map((p, i) => this.createCardHTML(p, i)).join(''); },
+            createCardHTML(person, index = 0) {
+                const { totalPool } = logic.calculateOdds(person);
+
+                return `
+                    <div class="person-card" data-person-id="${person.id}" style="animation-delay: ${index * 0.07}s">
+                        <div class="card-admin-actions">
+                            <button class="admin-card-btn reset" data-action="reset" data-id="${person.id}" title="Resetuj"><i class="fas fa-sync-alt"></i></button>
+                            <button class="admin-card-btn delete" data-action="delete" data-id="${person.id}" title="Usuń"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                        <div class="card-header">
+                            <div class="person-name">${person.name}</div>
+                            <div class="bet-type-switcher" data-action="switchView">
+                                <button class="switch-btn active" data-view="main-bets-view"><i class="fas fa-star"></i>Główne</button>
+                                <button class="switch-btn" data-view="detailed-bets-view"><i class="fas fa-list-ol"></i>Szczegółowe</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="bet-view main-bets-view active"></div>
+                            <div class="bet-view detailed-bets-view"></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="bet-progress-bar" data-progress-bar-id="${person.id}"></div>
+                            <div class="total-pool" data-total-pool-id="${person.id}">Łączna pula: ${totalPool} PLN</div>
+                        </div>
+                    </div>`;
+            },
+            updateCardContent(card, person) {
+                const { mainOdds, detailedOdds, totalPool } = logic.calculateOdds(person);
+                
+                const mainViewHTML = `<table class="bet-table"><tbody>
+                    <tr><td class="bet-label">Zda</td><td class="bet-odd-value">${mainOdds.pass}</td><td><button class="bet-button" data-action="showBetModal" data-id="${person.id}" data-bet-id="pass" data-bet-type="main">Obstaw</button></td></tr>
+                    <tr><td class="bet-label">Nie Zda</td><td class="bet-odd-value">${mainOdds.fail}</td><td><button class="bet-button" data-action="showBetModal" data-id="${person.id}" data-bet-id="fail" data-bet-type="main">Obstaw</button></td></tr>
+                </tbody></table>`;
+                
+                const detailedRowsHTML = detailedOdds.map(({ rangeId, odd }) => `
+                    <tr><td class="bet-label">${CONFIG.BET_RANGES[rangeId].label}</td><td class="bet-odd-value">${odd}</td><td><button class="bet-button" data-action="showBetModal" data-id="${person.id}" data-bet-id="${rangeId}" data-bet-type="detailed">Obstaw</button></td></tr>
+                `).join('');
+                const detailedViewHTML = `<table class="bet-table"><tbody>${detailedRowsHTML}</tbody></table>`;
+                
+                card.querySelector('.main-bets-view').innerHTML = mainViewHTML;
+                card.querySelector('.detailed-bets-view').innerHTML = detailedViewHTML;
+                
+                const progressSegmentsHTML = Object.keys(CONFIG.BET_RANGES).map(rangeId => {
+                    const rangePool = person.bets[rangeId] || 0;
+                    const percentage = totalPool > 0 ? (rangePool / totalPool) * 100 : 0;
+                    return `<div class="progress-segment" style="width: ${percentage}%; background-color: ${CONFIG.BET_RANGES[rangeId].color};" title="${CONFIG.BET_RANGES[rangeId].label}"></div>`;
+                }).join('');
+                card.querySelector(`[data-progress-bar-id="${person.id}"]`).innerHTML = progressSegmentsHTML;
+
+                card.querySelector(`[data-total-pool-id="${person.id}"]`).textContent = `Łączna pula: ${totalPool} PLN`;
+            }
+        };
+        Object.assign(renderer, {
+            renderFeaturedBets() {
+                const grid = $('#featured-bets .featured-grid');
+                if (state.people.length < 1) return $('#featured-bets').style.display = 'none';
+                $('#featured-bets').style.display = 'block';
+
+                const allOdds = state.people.flatMap(p => {
+                    const { mainOdds, detailedOdds } = logic.calculateOdds(p);
+                    return [
+                        { person: p, label: 'Zda', odd: mainOdds.pass },
+                        { person: p, label: 'Nie zda', odd: mainOdds.fail },
+                        ...detailedOdds.map(o => ({ person: p, label: CONFIG.BET_RANGES[o.rangeId].label, odd: o.odd }))
+                    ];
+                });
+                
+                const minOddBet = allOdds.reduce((min, o) => parseFloat(o.odd) < parseFloat(min.odd) ? o : min, allOdds[0]);
+                const maxOddBet = allOdds.reduce((max, o) => parseFloat(o.odd) > parseFloat(max.odd) ? o : max, allOdds[0]);
+                
+                const peopleWithPool = state.people.map(p => ({...p, totalPool: logic.calculateOdds(p).totalPool}));
+                const hotBet = peopleWithPool.length > 0 ? peopleWithPool.reduce((max, p) => p.totalPool > max.totalPool ? p : max, peopleWithPool[0]) : {name: 'Brak', totalPool: 0};
+                
+                grid.innerHTML = `
+                    <div class="featured-card sure-bet"><div class="featured-title">Najniższy Kurs</div><div class="featured-person">${minOddBet.person.name}</div><div class="featured-details">${minOddBet.label} @ <strong>${minOddBet.odd}</strong></div></div>
+                    <div class="featured-card risky-bet"><div class="featured-title">Najwyższy Kurs</div><div class="featured-person">${maxOddBet.person.name}</div><div class="featured-details">${maxOddBet.label} @ <strong>${maxOddBet.odd}</strong></div></div>
+                    <div class="featured-card hot-bet"><div class="featured-title">Największa Pula</div><div class="featured-person">${hotBet.name}</div><div class="featured-details">Łączna pula: <strong>${hotBet.totalPool} PLN</strong></div></div>`;
+            },
+            renderBettingList() {
+                const list = $('#betting-list');
+                list.innerHTML = '';
+                state.people.forEach((p, i) => {
+                    const cardHTML = this.createCardHTML(p, i);
+                    list.insertAdjacentHTML('beforeend', cardHTML);
+                    const cardElement = list.lastElementChild;
+                    this.updateCardContent(cardElement, p);
+                });
+            }
+        });
+
         const actions = {
             async confirmBet() {
                 const amount = parseInt($('#modal-bet-amount').value, 10);
@@ -392,19 +362,22 @@
                 
                 const person = state.people.find(p => p.id === currentBet.personId);
                 if (person) {
-                    person.bets[currentBet.rangeId] += amount;
+                    person.bets[currentBet.betId] = (person.bets[currentBet.betId] || 0) + amount;
                     userSystem.updateWallet(-amount);
                     ui.closeModal();
                     await dataHandler.save();
                     toast.show(`Postawiono ${amount} PLN!`, 'success');
-                    renderer.updateCard(currentBet.personId);
+                    
+                    const card = $(`[data-person-id="${currentBet.personId}"]`);
+                    renderer.updateCardContent(card, person);
+                    renderer.renderFeaturedBets();
                 }
             },
             async addPerson() {
                 const name = $('#new-person-name').value.trim();
                 if (!name) return toast.show("Podaj imię i nazwisko.", 'error');
                 
-                const newPerson = { id: Date.now(), name, bets: {} };
+                const newPerson = { id: Date.now(), name, bets: { pass: 0, fail: 0 } };
                 Object.keys(CONFIG.BET_RANGES).forEach(key => newPerson.bets[key] = 0);
                 
                 state.people.push(newPerson);
@@ -416,10 +389,10 @@
             async delete(target) {
                 const personId = parseInt(target.dataset.id);
                 const person = state.people.find(p => p.id === personId);
-                if (confirm(`Czy na pewno chcesz usunąć ${person.name}?`)) {
+                if (confirm(`Czy chcesz usunąć ${person.name}?`)) {
                     state.people = state.people.filter(p => p.id !== personId);
                     await dataHandler.save();
-                    toast.show(`${person.name} został usunięty.`, 'success');
+                    toast.show(`${person.name} usunięty.`, 'success');
                     renderer.renderAll();
                 }
             },
@@ -429,29 +402,33 @@
                 if (confirm(`Czy chcesz zresetować zakłady dla ${person.name}?`)) {
                     Object.keys(person.bets).forEach(key => person.bets[key] = 0);
                     await dataHandler.save();
-                    toast.show(`Zakłady dla ${person.name} zostały zresetowane.`, 'success');
-                    renderer.updateCard(personId);
+                    toast.show(`Zakłady dla ${person.name} zresetowane.`, 'success');
+                    const card = $(`[data-person-id="${personId}"]`);
+                    renderer.updateCardContent(card, person);
+                    renderer.renderFeaturedBets();
                 }
+            },
+            switchView(target) {
+                const switcher = target.closest('.bet-type-switcher');
+                const card = target.closest('.person-card');
+                const viewToShow = target.dataset.view;
+
+                switcher.querySelectorAll('.switch-btn').forEach(btn => btn.classList.remove('active'));
+                target.classList.add('active');
+
+                card.querySelectorAll('.bet-view').forEach(view => {
+                    view.classList.toggle('active', view.classList.contains(viewToShow));
+                });
             }
         };
 
-        // --- INICJALIZACJA APLIKACJI ---
         document.addEventListener('DOMContentLoaded', () => {
+            ui.init();
             userSystem.init();
             if (new URLSearchParams(window.location.search).get('admin') === CONFIG.ADMIN_KEY) {
                 document.body.classList.add('admin-mode');
             }
             dataHandler.fetch();
-
-            $('#confirm-nickname-btn').addEventListener('click', () => userSystem.create());
-            
-            document.body.addEventListener('click', (e) => {
-                const target = e.target.closest('[data-action]');
-                const action = target?.dataset.action;
-                if (action && (actions[action] || ui[action])) {
-                    (actions[action] || ui[action])(target);
-                }
-            });
         });
     </script>
 </body>
